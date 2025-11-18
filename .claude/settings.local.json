@@ -10,7 +10,9 @@
       "Bash(timeout /t 5 /nobreak)",
       "Bash(node import-brinquedos.js:*)",
       "Bash(ping:*)",
-      "Bash(nul)"
+      "Bash(nul)",
+      "Bash(node create-clientes-table.js:*)",
+      "Bash(node check-clientes-table.js:*)"
     ],
     "deny": [],
     "ask": []

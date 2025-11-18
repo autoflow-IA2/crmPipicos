@@ -1,6 +1,6 @@
 # Funcionalidades Implementadas - CRM de Agendamentos
 
-**Data:** 17/11/2025
+**Data:** 18/11/2025
 **Status:** ✅ Pronto para Uso
 
 ---
@@ -364,32 +364,141 @@ src/
 
 ---
 
+### 8. Calendário Visual ✅ (NOVO!)
+**Rota:** `http://localhost:3001/calendario`
+
+✅ **Visualizações Múltiplas**
+- Visualização Mensal (padrão)
+- Visualização Semanal
+- Visualização Diária
+- Visualização de Agenda
+- Navegação fluida entre períodos
+
+✅ **Sistema de Cores Inteligente**
+- Cores por tipo de serviço:
+  - Brinquedos: Azul
+  - Recreação: Verde
+  - Decoração: Âmbar/Laranja
+  - Completo: Roxo
+- Legenda visual no topo da página
+
+✅ **Estatísticas em Tempo Real**
+- Total de eventos
+- Eventos por tipo de serviço
+- Cards de resumo coloridos
+
+✅ **Funcionalidades Interativas**
+- Click em evento para ver detalhes completos
+- Navegação direta para página de detalhes
+- Tooltip com informações ao passar mouse
+- Horário de início e fim dos eventos
+- Interface em português (pt-BR)
+
+✅ **Design Profissional**
+- Estilos customizados com calendar.css
+- Responsivo (desktop, tablet, mobile)
+- Animações suaves
+- Destaque visual do dia atual
+- Botões de navegação estilizados
+
+✅ **Integração Completa**
+- Carrega dados reais do Supabase
+- Sincronizado com agendamentos
+- Loading states
+- Error handling
+- Performance otimizada
+
+---
+
+### 9. Gestão de Clientes ✅ (NOVO!)
+**Rota:** `http://localhost:3001/clientes`
+
+✅ **Listagem Completa de Clientes**
+- Tabela responsiva com todos os clientes
+- Filtros avançados:
+  - Busca por nome, telefone, email ou CPF/CNPJ
+  - Filtro por status (ativos/inativos/todos)
+  - Contador de resultados
+  - Limpar filtros
+- Cards de estatísticas:
+  - Total de clientes
+  - Clientes ativos
+  - Clientes inativos
+
+✅ **Cadastro de Clientes** (`/clientes/novo`)
+- Formulário organizado em seções:
+  - Dados Pessoais (nome*, CPF/CNPJ, data nascimento)
+  - Contato (telefone*, telefone alternativo, email)
+  - Endereço completo (CEP, rua, número, complemento, bairro, cidade, estado)
+  - Observações
+- Validações em tempo real
+- Campos obrigatórios marcados
+- Select de estados brasileiros
+
+✅ **Detalhes do Cliente** (`/clientes/:id`)
+- Visualização completa dos dados
+- Cards de estatísticas do cliente:
+  - Total de agendamentos realizados
+  - Data do último agendamento
+  - Valor total gasto
+- Informações organizadas por seção:
+  - Dados Pessoais
+  - Contato
+  - Endereço
+  - Observações
+- Indicador de status (Ativo/Inativo)
+- Botões de ação (Editar, Excluir)
+
+✅ **Edição de Clientes** (`/clientes/:id/editar`)
+- Formulário preenchido com dados atuais
+- Mesmas validações do cadastro
+- Atualização no banco de dados
+- Redirecionamento para detalhes após salvar
+
+✅ **Funcionalidades Avançadas**
+- Soft Delete (inativar cliente)
+- Reativar cliente inativo
+- Exclusão permanente (com confirmação)
+- Histórico de agendamentos integrado
+- Cálculo automático de estatísticas
+- Verificação de telefone/email duplicado
+
+✅ **Integração com Sistema**
+- Hook customizado `useClientes`
+- Serviço completo com todas operações CRUD
+- Notificações toast para todas ações
+- Loading states
+- Error handling
+- Cache com React Query
+
+---
+
 ## ⏭️ Próximos Passos Sugeridos
 
 ### Fase 3: Melhorias Adicionais
-1. **Calendário Visual**
-   - Implementar react-big-calendar
-   - Visualização mensal/semanal
-   - Arrastar e soltar eventos
-   - Verificação de conflitos
+1. **Melhorias no Calendário**
+   - Arrastar e soltar eventos para reagendar
+   - Verificação visual de conflitos de horário
+   - Criação de agendamento direto no calendário
 
 2. **Validações Avançadas**
-   - Biblioteca de validação (Zod)
-   - Validação de CPF/CNPJ
-   - Validação de telefone
-   - Validação de CEP com busca automática de endereço
+   - Biblioteca de validação (Zod ou Yup)
+   - Validação de CPF/CNPJ com algoritmo
+   - Máscara de telefone automática
+   - Validação de CEP com busca automática de endereço (ViaCEP API)
 
-3. **Relatórios**
-   - Exportação para PDF
-   - Exportação para Excel
-   - Gráficos de performance
-   - Análises financeiras
+3. **Relatórios e Exportações**
+   - Exportação de clientes para Excel/CSV
+   - Exportação de agendamentos para PDF
+   - Gráficos de performance com Recharts
+   - Análises financeiras detalhadas
+   - Relatório de uso de equipamentos
 
-4. **Gestão de Clientes**
-   - Cadastro de clientes separado
-   - Histórico de agendamentos por cliente
-   - Busca e autocomplete de clientes
+4. **Melhorias na Gestão de Clientes**
+   - Autocomplete de cliente no formulário de agendamento
    - Sistema de fidelidade/descontos
+   - Histórico completo de agendamentos na página de detalhes
+   - Integração com WhatsApp para envio de mensagens
 
 ---
 
@@ -418,32 +527,56 @@ Para dúvidas ou problemas, consulte:
 
 ---
 
-**Última Atualização:** 17/11/2025 às 22:30
-**Versão:** 1.2.0
+**Última Atualização:** 18/11/2025 às 16:10
+**Versão:** 1.4.0
 **Status:** ✅ Totalmente Funcional
 
 ---
 
 ## 📊 Estatísticas do Projeto
 
-### Funcionalidades Implementadas: 7/10
+### Funcionalidades Implementadas: 9/10 (90%)
 - ✅ Dashboard com estatísticas
 - ✅ Estoque de brinquedos
-- ✅ Listagem de agendamentos
-- ✅ Criação de agendamentos
-- ✅ Detalhes do agendamento
-- ✅ Edição de agendamentos
+- ✅ Gestão de Agendamentos (CRUD completo)
 - ✅ Sistema de notificações toast
-- ⏳ Calendário visual
+- ✅ Calendário visual
+- ✅ **Gestão de Clientes (NOVO!)**
 - ⏳ Validações avançadas
-- ⏳ Relatórios
+- ⏳ Relatórios e exportações
 
-### Arquivos Criados: 8+
+### Arquivos Criados: 18+
+
+**Calendário (3 arquivos):**
+- `src/pages/Calendario.tsx` - 190+ linhas
+- `src/hooks/useCalendario.ts` - 80+ linhas
+- `src/styles/calendar.css` - 200+ linhas
+
+**Gestão de Clientes (7 arquivos):** ✨ NOVO
+- `src/types/cliente.types.ts` - 70+ linhas
+- `src/services/clientes.service.ts` - 230+ linhas
+- `src/hooks/useClientes.ts` - 130+ linhas
+- `src/components/clientes/ClienteForm.tsx` - 350+ linhas
+- `src/pages/Clientes.tsx` - 300+ linhas
+- `src/pages/NovoCliente.tsx` - 30+ linhas
+- `src/pages/ClienteDetalhes.tsx` - 240+ linhas
+- `src/pages/EditarCliente.tsx` - 45+ linhas
+
+**Migrations SQL:**
+- `supabase/migrations/002_create_clientes.sql` - Tabela de clientes
+
+**Agendamentos:**
 - `src/pages/AgendamentoDetalhes.tsx` - 450+ linhas
 - `src/pages/EditarAgendamento.tsx` - 60+ linhas
-- `src/components/agendamentos/AgendamentoForm.tsx` - 750+ linhas (atualizado)
-- Sistema de notificações integrado em 5+ componentes
+- `src/components/agendamentos/AgendamentoForm.tsx` - 750+ linhas
 
-### Tecnologias Adicionadas:
-- ✅ react-hot-toast - Notificações elegantes
-- ✅ Sistema de roteamento dinâmico (/:id, /:id/editar)
+### Tecnologias Utilizadas:
+- ✅ **React 18** + TypeScript
+- ✅ **Supabase** (PostgreSQL + Auth + RLS)
+- ✅ **React Query** - Estado e cache
+- ✅ **React Router v6** - Navegação
+- ✅ **Tailwind CSS** - Estilização
+- ✅ **react-hot-toast** - Notificações
+- ✅ **react-big-calendar** - Calendário
+- ✅ **date-fns** - Datas em pt-BR
+- ✅ **Recharts** - Gráficos (instalado)

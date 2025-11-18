@@ -1,0 +1,253 @@
+/* Estilos customizados para o calendário */
+
+/* Container do calendário */
+.rbc-calendar {
+  font-family: inherit;
+}
+
+/* Header do calendário (dias da semana) */
+.rbc-header {
+  padding: 12px 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #374151;
+  background-color: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Células do calendário */
+.rbc-day-bg {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.rbc-day-bg:hover {
+  background-color: #f9fafb;
+}
+
+/* Dia de hoje */
+.rbc-today {
+  background-color: #dbeafe !important;
+}
+
+/* Dias do mês anterior/posterior */
+.rbc-off-range-bg {
+  background-color: #f9fafb;
+}
+
+/* Número do dia */
+.rbc-date-cell {
+  padding: 6px;
+  text-align: right;
+}
+
+.rbc-date-cell > a {
+  color: #374151;
+  font-weight: 500;
+}
+
+.rbc-off-range .rbc-date-cell > a {
+  color: #9ca3af;
+}
+
+.rbc-now .rbc-date-cell > a {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* Eventos */
+.rbc-event {
+  padding: 3px 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rbc-event:hover {
+  opacity: 1 !important;
+  transform: scale(1.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-event-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.rbc-event-content {
+  font-size: 0.875rem;
+}
+
+/* Botões de navegação */
+.rbc-toolbar {
+  padding: 16px 0;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rbc-toolbar button {
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+.rbc-toolbar button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Título do toolbar (mês/ano atual) */
+.rbc-toolbar-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-transform: capitalize;
+}
+
+/* Visualização de agenda */
+.rbc-agenda-view {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rbc-agenda-table {
+  border: 0;
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell {
+  padding: 12px;
+  font-size: 0.875rem;
+}
+
+.rbc-agenda-event-cell {
+  padding: 12px;
+}
+
+/* Visualização semanal e diária */
+.rbc-time-view {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rbc-time-header {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.rbc-time-content {
+  border-top: 1px solid #e5e7eb;
+}
+
+.rbc-timeslot-group {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rbc-time-slot {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.rbc-current-time-indicator {
+  background-color: #ef4444;
+  height: 2px;
+}
+
+/* Popup de eventos (quando há muitos eventos em um dia) */
+.rbc-overlay {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+}
+
+.rbc-overlay-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Link "Ver mais" */
+.rbc-show-more {
+  background-color: transparent;
+  color: #3b82f6;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.rbc-show-more:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rbc-toolbar-label {
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  .rbc-toolbar button {
+    width: 100%;
+  }
+
+  .rbc-header {
+    font-size: 0.75rem;
+    padding: 8px 4px;
+  }
+
+  .rbc-event {
+    font-size: 0.75rem;
+    padding: 2px 4px;
+  }
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rbc-calendar {
+  animation: fadeIn 0.3s ease-in-out;
+}

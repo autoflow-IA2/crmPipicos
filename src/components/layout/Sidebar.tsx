@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 interface MenuItem {
   path: string;
   label: string;
   icon: React.ReactNode;
+  badge?: number;
 }
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems: MenuItem[] = [
     {
@@ -67,32 +69,114 @@ const Sidebar: React.FC = () => {
     },
   ];
 
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
+
   return (
-    <aside className="w-64 bg-gray-800 text-white min-h-screen">
-      <div className="p-6">
-        <h2 className="text-xl font-bold mb-6">Menu</h2>
-        <nav>
-          <ul className="space-y-2">
-            {menuItems.map((item) => (
-              <li key={item.path}>
+    <aside
+      className={`
+        ${isCollapsed ? 'w-20' : 'w-64'}
+        bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen
+        transition-all duration-300 ease-in-out
+        flex flex-col
+        shadow-2xl
+      `}
+    >
+      {/* Logo e Toggle */}
+      <div className="p-6 flex items-center justify-between border-b border-gray-700">
+        {!isCollapsed && (
+          <div className="flex items-center gap-3 animate-fadeIn">
+            <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-lg font-bold">CRM</h2>
+              <p className="text-xs text-gray-400">Agendamentos</p>
+            </div>
+          </div>
+        )}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 transform hover:scale-110"
+          aria-label={isCollapsed ? 'Expandir menu' : 'Recolher menu'}
+        >
+          <svg
+            className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`}
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+          </svg>
+        </button>
+      </div>
+
+      {/* Menu Items */}
+      <nav className="flex-1 p-4">
+        <ul className="space-y-1">
+          {menuItems.map((item, index) => {
+            const active = isActive(item.path);
+            return (
+              <li key={item.path} style={{ animationDelay: `${index * 50}ms` }} className="animate-slideInLeft">
                 <Link
                   to={item.path}
                   className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
+                    flex items-center gap-3 px-4 py-3 rounded-xl
+                    transition-all duration-200 transform
+                    relative group
                     ${
-                      location.pathname === item.path
-                        ? 'bg-primary-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700'
+                      active
+                        ? 'bg-primary-600 text-white shadow-lg scale-105'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white hover:scale-105'
                     }
                   `}
+                  title={isCollapsed ? item.label : undefined}
                 >
-                  {item.icon}
-                  <span>{item.label}</span>
+                  <span className={`${active ? 'animate-pulse' : ''}`}>{item.icon}</span>
+                  {!isCollapsed && (
+                    <span className="font-medium flex-1 animate-fadeIn">{item.label}</span>
+                  )}
+                  {!isCollapsed && item.badge && (
+                    <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 animate-scaleIn">
+                      {item.badge}
+                    </span>
+                  )}
+                  {/* Indicator bar */}
+                  {active && (
+                    <span className="absolute left-0 top-0 bottom-0 w-1 bg-white rounded-r-full animate-slideInLeft"></span>
+                  )}
                 </Link>
               </li>
-            ))}
-          </ul>
-        </nav>
+            );
+          })}
+        </ul>
+      </nav>
+
+      {/* Footer */}
+      <div className="p-4 border-t border-gray-700">
+        {!isCollapsed ? (
+          <div className="bg-gray-700 rounded-xl p-4 animate-fadeIn">
+            <p className="text-xs text-gray-400 mb-2">Precisa de ajuda?</p>
+            <button className="text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors">
+              Suporte
+            </button>
+          </div>
+        ) : (
+          <button className="w-full p-3 rounded-xl hover:bg-gray-700 transition-colors" title="Ajuda">
+            <svg className="w-5 h-5 mx-auto" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </button>
+        )}
       </div>
     </aside>
   );

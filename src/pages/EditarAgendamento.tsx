@@ -46,8 +46,8 @@ const EditarAgendamento: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Editar Agendamento</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-black">Editar Agendamento</h1>
+        <p className="text-black font-bold mt-2">
           Modifique os dados do agendamento de {agendamento.cliente_nome}
         </p>
       </div>

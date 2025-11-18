@@ -295,7 +295,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
               className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                 etapa <= etapaAtual
                   ? 'bg-primary-600 text-white'
-                  : 'bg-gray-200 text-gray-600'
+                  : 'bg-gray-200 text-black'
               }`}
             >
               {etapa}
@@ -314,11 +314,11 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       {/* Etapa 1: Dados do Cliente */}
       {etapaAtual === 1 && (
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Dados do Cliente</h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Dados do Cliente</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Nome Completo *
               </label>
               <Input
@@ -331,7 +331,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Telefone *
               </label>
               <Input
@@ -344,7 +344,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Email
               </label>
               <Input
@@ -356,7 +356,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 CEP
               </label>
               <Input
@@ -368,7 +368,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Endereço
               </label>
               <Input
@@ -380,7 +380,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Bairro
               </label>
               <Input
@@ -392,7 +392,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Cidade
               </label>
               <Input
@@ -409,11 +409,11 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       {/* Etapa 2: Dados do Evento */}
       {etapaAtual === 2 && (
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Dados do Evento</h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Dados do Evento</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Tipo de Serviço *
               </label>
               <select
@@ -429,7 +429,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Tipo de Evento
               </label>
               <Input
@@ -441,7 +441,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Data do Evento *
               </label>
               <Input
@@ -453,7 +453,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Número de Convidados
               </label>
               <Input
@@ -465,7 +465,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Hora de Início *
               </label>
               <Input
@@ -477,7 +477,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Hora de Término *
               </label>
               <Input
@@ -489,7 +489,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Faixa Etária
               </label>
               <select
@@ -511,7 +511,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       {/* Etapa 3: Seleção de Brinquedos */}
       {etapaAtual === 3 && (
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Seleção de Brinquedos</h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Seleção de Brinquedos</h2>
 
           {erros.brinquedos && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -522,7 +522,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-black mb-1">
                   Categoria
                 </label>
                 <select
@@ -543,7 +543,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-black mb-1">
                   Brinquedo
                 </label>
                 <select
@@ -562,7 +562,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-black mb-1">
                   Quantidade
                 </label>
                 <Input
@@ -634,13 +634,13 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       {/* Etapa 4: Pagamento e Finalização */}
       {etapaAtual === 4 && (
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Pagamento e Finalização</h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Pagamento e Finalização</h2>
 
           <div className="bg-primary-50 p-6 rounded-lg mb-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <p className="text-sm text-gray-600">Valor Total</p>
-                <p className="text-2xl font-bold text-gray-800">R$ {valorTotal.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-black">R$ {valorTotal.toFixed(2)}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Valor do Sinal</p>
@@ -657,7 +657,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Forma de Pagamento
               </label>
               <select
@@ -675,7 +675,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Valor do Sinal (R$)
               </label>
               <Input
@@ -690,7 +690,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-bold text-black mb-1">
                 Observações
               </label>
               <textarea

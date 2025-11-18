@@ -76,8 +76,8 @@ const Agendamentos: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Agendamentos</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-black">Agendamentos</h1>
+          <p className="text-black font-bold mt-1">
             {agendamentosFiltrados.length} agendamento(s) encontrado(s)
           </p>
         </div>
@@ -193,13 +193,13 @@ const Agendamentos: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {agendamentosFiltrados.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-black">
                     <div className="flex flex-col items-center justify-center">
-                      <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-16 h-16 mb-4 text-purple-300" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                       </svg>
-                      <p className="text-lg">Nenhum agendamento encontrado</p>
-                      <p className="text-sm mt-2">
+                      <p className="text-lg font-bold">Nenhum agendamento encontrado</p>
+                      <p className="text-sm mt-2 text-gray-700">
                         {searchTerm || statusFilter || tipoServicoFilter || dataFilter
                           ? 'Tente ajustar os filtros ou criar um novo agendamento'
                           : 'Clique em "Novo Agendamento" para começar'}
@@ -212,31 +212,31 @@ const Agendamentos: React.FC = () => {
                   <tr key={agendamento.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-bold text-black">
                           {agendamento.cliente_nome}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-600">
                           {agendamento.cliente_telefone}
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm font-bold text-black">
                         {formatarData(agendamento.data_evento)}
                       </div>
                       {agendamento.tipo_evento && (
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-600">
                           {agendamento.tipo_evento}
                         </div>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm font-bold text-black">
                         {agendamento.hora_inicio} - {agendamento.hora_fim}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 capitalize">
+                      <div className="text-sm font-bold text-black capitalize">
                         {agendamento.tipo_servico}
                       </div>
                     </td>
@@ -250,24 +250,24 @@ const Agendamentos: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-bold text-black">
                         {formatarMoeda(Number(agendamento.valor_total) || 0)}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => navigate(`/agendamentos/${agendamento.id}`)}
-                        className="text-blue-600 hover:text-blue-900 mr-3"
+                        className="text-purple-600 hover:text-purple-900 mr-3 font-bold"
                       >
                         Ver
                       </button>
                       <button
                         onClick={() => navigate(`/agendamentos/${agendamento.id}/editar`)}
-                        className="text-green-600 hover:text-green-900 mr-3"
+                        className="text-green-600 hover:text-green-900 mr-3 font-bold"
                       >
                         Editar
                       </button>
-                      <button className="text-red-600 hover:text-red-900">
+                      <button className="text-red-600 hover:text-red-900 font-bold">
                         Excluir
                       </button>
                     </td>

@@ -81,11 +81,11 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Dados Pessoais */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Dados Pessoais</h3>
+        <h3 className="text-lg font-bold text-black mb-4">Dados Pessoais</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Nome Completo *
             </label>
             <input
@@ -100,7 +100,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               CPF/CNPJ
             </label>
             <input
@@ -114,7 +114,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Data de Nascimento
             </label>
             <input
@@ -130,11 +130,11 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
       {/* Contato */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Contato</h3>
+        <h3 className="text-lg font-bold text-black mb-4">Contato</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Telefone Principal *
             </label>
             <input
@@ -149,7 +149,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Telefone Alternativo
             </label>
             <input
@@ -163,7 +163,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               E-mail
             </label>
             <input
@@ -180,11 +180,11 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
       {/* Endereço */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Endereço</h3>
+        <h3 className="text-lg font-bold text-black mb-4">Endereço</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               CEP
             </label>
             <input
@@ -198,7 +198,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Endereço
             </label>
             <input
@@ -212,7 +212,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Número
             </label>
             <input
@@ -226,7 +226,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Complemento
             </label>
             <input
@@ -240,7 +240,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Bairro
             </label>
             <input
@@ -254,7 +254,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Cidade
             </label>
             <input
@@ -268,7 +268,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-black mb-1">
               Estado
             </label>
             <select
@@ -312,7 +312,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
       {/* Observações */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Observações</h3>
+        <h3 className="text-lg font-bold text-black mb-4">Observações</h3>
 
         <textarea
           name="observacoes"

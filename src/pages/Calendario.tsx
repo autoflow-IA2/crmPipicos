@@ -89,8 +89,8 @@ const Calendario: React.FC = () => {
     <div className="h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Calendário de Agendamentos</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-black">Calendário de Agendamentos</h1>
+          <p className="text-black font-bold mt-1">
             Visualize todos os seus agendamentos em um calendário interativo
           </p>
         </div>
@@ -98,7 +98,7 @@ const Calendario: React.FC = () => {
 
       {/* Legenda de Cores */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Legenda - Tipos de Serviço</h3>
+        <h3 className="text-sm font-bold text-black mb-3">Legenda - Tipos de Serviço</h3>
         <div className="flex flex-wrap gap-4">
           {(Object.entries(CORES_TIPO_SERVICO) as [TipoServico, string][]).map(([tipo, cor]) => (
             <div key={tipo} className="flex items-center gap-2">
@@ -106,7 +106,7 @@ const Calendario: React.FC = () => {
                 className="w-4 h-4 rounded"
                 style={{ backgroundColor: cor }}
               />
-              <span className="text-sm text-gray-600 capitalize">
+              <span className="text-sm font-bold text-black capitalize">
                 {tipo === 'brinquedos' && 'Brinquedos'}
                 {tipo === 'recreacao' && 'Recreação'}
                 {tipo === 'decoracao' && 'Decoração'}
@@ -120,23 +120,23 @@ const Calendario: React.FC = () => {
       {/* Estatísticas Rápidas */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div className="bg-white rounded-lg shadow-md p-4">
-          <div className="text-sm text-gray-600">Total de Eventos</div>
-          <div className="text-2xl font-bold text-primary-600">{events.length}</div>
+          <div className="text-sm font-bold text-black">Total de Eventos</div>
+          <div className="text-2xl font-bold text-purple-600">{events.length}</div>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
-          <div className="text-sm text-gray-600">Brinquedos</div>
+          <div className="text-sm font-bold text-black">Brinquedos</div>
           <div className="text-2xl font-bold text-blue-600">
             {events.filter(e => e.tipoServico === 'brinquedos').length}
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
-          <div className="text-sm text-gray-600">Recreação</div>
+          <div className="text-sm font-bold text-black">Recreação</div>
           <div className="text-2xl font-bold text-green-600">
             {events.filter(e => e.tipoServico === 'recreacao').length}
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
-          <div className="text-sm text-gray-600">Decoração</div>
+          <div className="text-sm font-bold text-black">Decoração</div>
           <div className="text-2xl font-bold text-amber-600">
             {events.filter(e => e.tipoServico === 'decoracao').length}
           </div>
@@ -172,15 +172,15 @@ const Calendario: React.FC = () => {
       </div>
 
       {/* Dicas de Uso */}
-      <div className="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+      <div className="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
         <div className="flex">
           <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="h-5 w-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
           </div>
           <div className="ml-3">
-            <p className="text-sm text-blue-700">
+            <p className="text-sm font-bold text-black">
               <strong>Dica:</strong> Clique em um evento para ver os detalhes completos do agendamento.
               Use os botões "Mês", "Semana" e "Dia" para alternar entre as visualizações.
             </p>

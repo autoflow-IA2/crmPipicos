@@ -124,21 +124,21 @@ const AgendamentoDetalhes: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            <h1 className="text-3xl font-bold text-black mb-2">
               Detalhes do Agendamento
             </h1>
-            <p className="text-gray-600">ID: {agendamento.id}</p>
+            <p className="text-black font-bold">ID: {agendamento.id}</p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => navigate('/agendamentos')}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+              className="px-4 py-2 bg-gray-200 text-black font-bold rounded-lg hover:bg-gray-300 transition"
             >
               Voltar
             </button>
             <button
               onClick={() => navigate(`/agendamentos/${id}/editar`)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
             >
               Editar
             </button>
@@ -178,28 +178,28 @@ const AgendamentoDetalhes: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Dados do Cliente */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
             📋 Dados do Cliente
           </h2>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium text-gray-600">Nome:</label>
-              <p className="text-gray-800 font-medium">{agendamento.cliente_nome}</p>
+              <label className="text-sm font-bold text-black">Nome:</label>
+              <p className="text-black font-bold">{agendamento.cliente_nome}</p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Telefone:</label>
-              <p className="text-gray-800">{agendamento.cliente_telefone}</p>
+              <label className="text-sm font-bold text-black">Telefone:</label>
+              <p className="text-black font-bold">{agendamento.cliente_telefone}</p>
             </div>
             {agendamento.cliente_email && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Email:</label>
-                <p className="text-gray-800">{agendamento.cliente_email}</p>
+                <label className="text-sm font-bold text-black">Email:</label>
+                <p className="text-black font-bold">{agendamento.cliente_email}</p>
               </div>
             )}
             {agendamento.cliente_endereco && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Endereço:</label>
-                <p className="text-gray-800">
+                <label className="text-sm font-bold text-black">Endereço:</label>
+                <p className="text-black font-bold">
                   {agendamento.cliente_endereco}
                   {agendamento.cliente_bairro && `, ${agendamento.cliente_bairro}`}
                   {agendamento.cliente_cidade && ` - ${agendamento.cliente_cidade}`}
@@ -212,41 +212,41 @@ const AgendamentoDetalhes: React.FC = () => {
 
         {/* Dados do Evento */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
             🎉 Dados do Evento
           </h2>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium text-gray-600">Data:</label>
-              <p className="text-gray-800 font-medium">
+              <label className="text-sm font-bold text-black">Data:</label>
+              <p className="text-black font-bold">
                 {formatDate(agendamento.data_evento)}
               </p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Horário:</label>
-              <p className="text-gray-800">
+              <label className="text-sm font-bold text-black">Horário:</label>
+              <p className="text-black font-bold">
                 {agendamento.hora_inicio} às {agendamento.hora_fim}
               </p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Tipo de Serviço:</label>
+              <label className="text-sm font-bold text-black">Tipo de Serviço:</label>
               <p className="text-gray-800 capitalize">{agendamento.tipo_servico}</p>
             </div>
             {agendamento.tipo_evento && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Tipo de Evento:</label>
-                <p className="text-gray-800">{agendamento.tipo_evento}</p>
+                <label className="text-sm font-bold text-black">Tipo de Evento:</label>
+                <p className="text-black font-bold">{agendamento.tipo_evento}</p>
               </div>
             )}
             {agendamento.num_convidados && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Nº de Convidados:</label>
-                <p className="text-gray-800">{agendamento.num_convidados}</p>
+                <label className="text-sm font-bold text-black">Nº de Convidados:</label>
+                <p className="text-black font-bold">{agendamento.num_convidados}</p>
               </div>
             )}
             {agendamento.faixa_etaria && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Faixa Etária:</label>
+                <label className="text-sm font-bold text-black">Faixa Etária:</label>
                 <p className="text-gray-800 capitalize">{agendamento.faixa_etaria}</p>
               </div>
             )}
@@ -257,7 +257,7 @@ const AgendamentoDetalhes: React.FC = () => {
         {agendamento.brinquedos_selecionados &&
           agendamento.brinquedos_selecionados.length > 0 && (
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+              <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
                 🎮 Brinquedos Selecionados
               </h2>
               <div className="space-y-3">
@@ -288,7 +288,7 @@ const AgendamentoDetalhes: React.FC = () => {
 
         {/* Informações Financeiras */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
             💰 Informações Financeiras
           </h2>
           <div className="space-y-3">
@@ -316,13 +316,13 @@ const AgendamentoDetalhes: React.FC = () => {
             )}
             {agendamento.forma_pagamento && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Forma de Pagamento:</label>
+                <label className="text-sm font-bold text-black">Forma de Pagamento:</label>
                 <p className="text-gray-800 capitalize">{agendamento.forma_pagamento}</p>
               </div>
             )}
             {agendamento.status_pagamento && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Status Pagamento:</label>
+                <label className="text-sm font-bold text-black">Status Pagamento:</label>
                 <p className="text-gray-800 capitalize">
                   {agendamento.status_pagamento.replace('_', ' ')}
                 </p>
@@ -335,13 +335,13 @@ const AgendamentoDetalhes: React.FC = () => {
       {/* Observações */}
       {(agendamento.observacoes || agendamento.observacoes_internas) && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
             📝 Observações
           </h2>
           <div className="space-y-4">
             {agendamento.observacoes && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Observações do Cliente:</label>
+                <label className="text-sm font-bold text-black">Observações do Cliente:</label>
                 <p className="text-gray-800 mt-1 bg-gray-50 p-3 rounded-lg">
                   {agendamento.observacoes}
                 </p>
@@ -349,7 +349,7 @@ const AgendamentoDetalhes: React.FC = () => {
             )}
             {agendamento.observacoes_internas && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Observações Internas:</label>
+                <label className="text-sm font-bold text-black">Observações Internas:</label>
                 <p className="text-gray-800 mt-1 bg-yellow-50 p-3 rounded-lg">
                   {agendamento.observacoes_internas}
                 </p>
@@ -364,7 +364,7 @@ const AgendamentoDetalhes: React.FC = () => {
         agendamento.necessita_desmontagem ||
         agendamento.responsavel_entrega) && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
             🚚 Logística
           </h2>
           <div className="space-y-3">
@@ -388,8 +388,8 @@ const AgendamentoDetalhes: React.FC = () => {
             )}
             {agendamento.responsavel_entrega && (
               <div>
-                <label className="text-sm font-medium text-gray-600">Responsável pela Entrega:</label>
-                <p className="text-gray-800">{agendamento.responsavel_entrega}</p>
+                <label className="text-sm font-bold text-black">Responsável pela Entrega:</label>
+                <p className="text-black font-bold">{agendamento.responsavel_entrega}</p>
               </div>
             )}
           </div>
@@ -417,7 +417,7 @@ const AgendamentoDetalhes: React.FC = () => {
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+                className="px-4 py-2 bg-gray-200 text-black font-bold rounded-lg hover:bg-gray-300 transition"
               >
                 Cancelar
               </button>

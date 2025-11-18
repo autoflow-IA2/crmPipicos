@@ -12,7 +12,8 @@
       "Bash(ping:*)",
       "Bash(nul)",
       "Bash(node create-clientes-table.js:*)",
-      "Bash(node check-clientes-table.js:*)"
+      "Bash(node check-clientes-table.js:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File update-fonts.ps1:*)"
     ],
     "deny": [],
     "ask": []

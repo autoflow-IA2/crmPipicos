@@ -27,15 +27,15 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+      <h1 className="text-3xl font-bold text-black mb-6">Dashboard</h1>
 
       {/* Cards de Estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total Agendamentos</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Total Agendamentos</p>
+              <p className="text-3xl font-bold text-purple-600 mt-2">
                 {estatisticas?.total || 0}
               </p>
             </div>
@@ -50,8 +50,8 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Agendamentos Hoje</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Agendamentos Hoje</p>
+              <p className="text-3xl font-bold text-green-600 mt-2">
                 {estatisticas?.hoje || 0}
               </p>
             </div>
@@ -66,8 +66,8 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Receita Mensal</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Receita Mensal</p>
+              <p className="text-3xl font-bold text-yellow-600 mt-2">
                 {formatarMoeda(estatisticas?.receitaMensal || 0)}
               </p>
             </div>
@@ -82,8 +82,8 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Pendentes</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Pendentes</p>
+              <p className="text-3xl font-bold text-red-600 mt-2">
                 {estatisticas?.pendentes || 0}
               </p>
             </div>
@@ -98,11 +98,11 @@ const Dashboard: React.FC = () => {
 
       {/* Eventos de Hoje */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Eventos de Hoje</h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Eventos de Hoje</h2>
         {agendamentosHoje.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            <p>Nenhum evento agendado para hoje</p>
-            <p className="text-sm mt-2">
+          <div className="text-center py-12">
+            <p className="text-black font-semibold">Nenhum evento agendado para hoje</p>
+            <p className="text-sm mt-2 text-gray-700">
               {estatisticas?.total === 0
                 ? 'Comece criando seu primeiro agendamento!'
                 : 'Aproveite o dia livre!'}
@@ -113,22 +113,22 @@ const Dashboard: React.FC = () => {
             {agendamentosHoje.map((agendamento) => (
               <div
                 key={agendamento.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                className="flex items-center justify-between p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer border border-purple-100"
                 onClick={() => navigate(`/agendamentos/${agendamento.id}`)}
               >
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-800">
+                  <h3 className="font-bold text-black">
                     {agendamento.cliente_nome}
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm font-semibold text-gray-700">
                     {agendamento.tipo_evento || 'Evento'}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-600 mt-1">
                     {agendamento.hora_inicio} - {agendamento.hora_fim}
                   </p>
                 </div>
                 <div className="text-right ml-4">
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-bold text-black">
                     {formatarMoeda(Number(agendamento.valor_total) || 0)}
                   </p>
                   <span

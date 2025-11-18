@@ -28,7 +28,7 @@ const Estoque: React.FC = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Estoque de Brinquedos</h1>
+        <h1 className="text-3xl font-bold text-black">Estoque de Brinquedos</h1>
         <Button variant="primary">
           <span className="flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,13 +44,13 @@ const Estoque: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total de Brinquedos</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Total de Brinquedos</p>
+              <p className="text-3xl font-bold text-purple-600 mt-2">
                 {brinquedosFiltrados.length}
               </p>
             </div>
-            <div className="bg-primary-100 p-3 rounded-lg">
-              <svg className="w-8 h-8 text-primary-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-purple-100 p-3 rounded-lg">
+              <svg className="w-8 h-8 text-purple-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
               </svg>
             </div>
@@ -60,8 +60,8 @@ const Estoque: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Unidades em Estoque</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">{totalUnidades}</p>
+              <p className="text-sm font-bold text-black">Unidades em Estoque</p>
+              <p className="text-3xl font-bold text-green-600 mt-2">{totalUnidades}</p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
               <svg className="w-8 h-8 text-green-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,8 +74,8 @@ const Estoque: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Categorias</p>
-              <p className="text-3xl font-bold text-gray-800 mt-2">
+              <p className="text-sm font-bold text-black">Categorias</p>
+              <p className="text-3xl font-bold text-yellow-600 mt-2">
                 {categorias.length}
               </p>
             </div>
@@ -91,7 +91,7 @@ const Estoque: React.FC = () => {
       {/* Filtros */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex items-center gap-4">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-bold text-black">
             Filtrar por categoria:
           </label>
           <select
@@ -126,15 +126,15 @@ const Estoque: React.FC = () => {
 
       {brinquedos.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-12">
-          <div className="text-center text-gray-500">
-            <svg className="w-24 h-24 mx-auto mb-4 text-gray-300" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="text-center text-black">
+            <svg className="w-24 h-24 mx-auto mb-4 text-purple-300" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
             </svg>
-            <h2 className="text-2xl font-semibold mb-2">Nenhum brinquedo cadastrado</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-2xl font-bold mb-2">Nenhum brinquedo cadastrado</h2>
+            <p className="text-gray-700 mb-4">
               Importe os brinquedos executando o arquivo SQL no Supabase
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-600">
               Consulte o arquivo: <code className="bg-gray-100 px-2 py-1 rounded">supabase/import-brinquedos.sql</code>
             </p>
           </div>
@@ -155,7 +155,7 @@ const Estoque: React.FC = () => {
 
               <div className="p-6">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-gray-800 flex-1">
+                  <h3 className="text-lg font-bold text-black flex-1">
                     {brinquedo.nome}
                   </h3>
                   <span
@@ -170,7 +170,7 @@ const Estoque: React.FC = () => {
                 </div>
 
                 {brinquedo.categoria && (
-                  <p className="text-sm text-primary-600 mb-2">
+                  <p className="text-sm font-bold text-purple-600 mb-2">
                     {brinquedo.categoria}
                   </p>
                 )}
@@ -183,14 +183,14 @@ const Estoque: React.FC = () => {
 
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div>
-                    <p className="text-xs text-gray-500">Valor Locação</p>
-                    <p className="text-xl font-bold text-gray-800">
+                    <p className="text-xs font-bold text-black">Valor Locação</p>
+                    <p className="text-xl font-bold text-black">
                       R$ {brinquedo.valor_locacao?.toFixed(2)}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-gray-500">Estoque</p>
-                    <p className="text-xl font-bold text-gray-800">
+                    <p className="text-xs font-bold text-black">Estoque</p>
+                    <p className="text-xl font-bold text-black">
                       {brinquedo.quantidade_estoque} un
                     </p>
                   </div>

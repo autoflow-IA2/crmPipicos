@@ -24,12 +24,12 @@ const ClienteDetalhes: React.FC = () => {
   if (!cliente) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-black mb-2">
           Cliente não encontrado
         </h2>
         <button
           onClick={() => navigate('/clientes')}
-          className="text-primary-600 hover:text-primary-700"
+          className="text-purple-600 hover:text-purple-700 font-bold"
         >
           Voltar para lista de clientes
         </button>
@@ -43,7 +43,7 @@ const ClienteDetalhes: React.FC = () => {
       <div className="flex justify-between items-start mb-6">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-gray-800">{cliente.nome}</h1>
+            <h1 className="text-3xl font-bold text-black">{cliente.nome}</h1>
             <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
               cliente.ativo
                 ? 'bg-green-100 text-green-800'
@@ -52,7 +52,7 @@ const ClienteDetalhes: React.FC = () => {
               {cliente.ativo ? 'Ativo' : 'Inativo'}
             </span>
           </div>
-          <p className="text-gray-600 mt-1">
+          <p className="text-black font-bold mt-1">
             Cliente desde {format(new Date(cliente.created_at), 'dd/MM/yyyy')}
           </p>
         </div>
@@ -78,11 +78,11 @@ const ClienteDetalhes: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total de Agendamentos</p>
-              <p className="text-3xl font-bold text-primary-600">{cliente.total_agendamentos || 0}</p>
+              <p className="text-sm font-bold text-black">Total de Agendamentos</p>
+              <p className="text-3xl font-bold text-purple-600">{cliente.total_agendamentos || 0}</p>
             </div>
-            <div className="p-3 bg-primary-100 rounded-full">
-              <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-3 bg-purple-100 rounded-full">
+              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
@@ -92,15 +92,15 @@ const ClienteDetalhes: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Último Agendamento</p>
-              <p className="text-lg font-bold text-gray-800">
+              <p className="text-sm font-bold text-black">Último Agendamento</p>
+              <p className="text-lg font-bold text-black">
                 {cliente.ultimo_agendamento
                   ? format(new Date(cliente.ultimo_agendamento), 'dd/MM/yyyy')
                   : '-'}
               </p>
             </div>
-            <div className="p-3 bg-blue-100 rounded-full">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-3 bg-purple-100 rounded-full">
+              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
@@ -110,7 +110,7 @@ const ClienteDetalhes: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total Gasto</p>
+              <p className="text-sm font-bold text-black">Total Gasto</p>
               <p className="text-2xl font-bold text-green-600">
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
@@ -131,22 +131,22 @@ const ClienteDetalhes: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Dados Pessoais */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Dados Pessoais</h2>
+          <h2 className="text-xl font-bold text-black mb-4">Dados Pessoais</h2>
           <div className="space-y-3">
             <div>
-              <p className="text-sm text-gray-600">Nome Completo</p>
-              <p className="font-medium">{cliente.nome}</p>
+              <p className="text-sm font-bold text-black">Nome Completo</p>
+              <p className="font-bold text-gray-700">{cliente.nome}</p>
             </div>
             {cliente.cpf_cnpj && (
               <div>
-                <p className="text-sm text-gray-600">CPF/CNPJ</p>
-                <p className="font-medium">{cliente.cpf_cnpj}</p>
+                <p className="text-sm font-bold text-black">CPF/CNPJ</p>
+                <p className="font-bold text-gray-700">{cliente.cpf_cnpj}</p>
               </div>
             )}
             {cliente.data_nascimento && (
               <div>
-                <p className="text-sm text-gray-600">Data de Nascimento</p>
-                <p className="font-medium">{format(new Date(cliente.data_nascimento), 'dd/MM/yyyy')}</p>
+                <p className="text-sm font-bold text-black">Data de Nascimento</p>
+                <p className="font-bold text-gray-700">{format(new Date(cliente.data_nascimento), 'dd/MM/yyyy')}</p>
               </div>
             )}
           </div>
@@ -154,22 +154,22 @@ const ClienteDetalhes: React.FC = () => {
 
         {/* Contato */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Contato</h2>
+          <h2 className="text-xl font-bold text-black mb-4">Contato</h2>
           <div className="space-y-3">
             <div>
-              <p className="text-sm text-gray-600">Telefone Principal</p>
-              <p className="font-medium">{cliente.telefone}</p>
+              <p className="text-sm font-bold text-black">Telefone Principal</p>
+              <p className="font-bold text-gray-700">{cliente.telefone}</p>
             </div>
             {cliente.telefone_alternativo && (
               <div>
-                <p className="text-sm text-gray-600">Telefone Alternativo</p>
-                <p className="font-medium">{cliente.telefone_alternativo}</p>
+                <p className="text-sm font-bold text-black">Telefone Alternativo</p>
+                <p className="font-bold text-gray-700">{cliente.telefone_alternativo}</p>
               </div>
             )}
             {cliente.email && (
               <div>
-                <p className="text-sm text-gray-600">E-mail</p>
-                <p className="font-medium">{cliente.email}</p>
+                <p className="text-sm font-bold text-black">E-mail</p>
+                <p className="font-bold text-gray-700">{cliente.email}</p>
               </div>
             )}
           </div>
@@ -178,18 +178,18 @@ const ClienteDetalhes: React.FC = () => {
         {/* Endereço */}
         {(cliente.endereco || cliente.cidade) && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Endereço</h2>
+            <h2 className="text-xl font-bold text-black mb-4">Endereço</h2>
             <div className="space-y-3">
               {cliente.cep && (
                 <div>
-                  <p className="text-sm text-gray-600">CEP</p>
-                  <p className="font-medium">{cliente.cep}</p>
+                  <p className="text-sm font-bold text-black">CEP</p>
+                  <p className="font-bold text-gray-700">{cliente.cep}</p>
                 </div>
               )}
               {cliente.endereco && (
                 <div>
-                  <p className="text-sm text-gray-600">Endereço</p>
-                  <p className="font-medium">
+                  <p className="text-sm font-bold text-black">Endereço</p>
+                  <p className="font-bold text-gray-700">
                     {cliente.endereco}
                     {cliente.numero && `, ${cliente.numero}`}
                     {cliente.complemento && ` - ${cliente.complemento}`}
@@ -198,8 +198,8 @@ const ClienteDetalhes: React.FC = () => {
               )}
               {(cliente.bairro || cliente.cidade || cliente.estado) && (
                 <div>
-                  <p className="text-sm text-gray-600">Cidade</p>
-                  <p className="font-medium">
+                  <p className="text-sm font-bold text-black">Cidade</p>
+                  <p className="font-bold text-gray-700">
                     {cliente.bairro && `${cliente.bairro} - `}
                     {cliente.cidade}
                     {cliente.estado && `/${cliente.estado}`}
@@ -213,7 +213,7 @@ const ClienteDetalhes: React.FC = () => {
         {/* Observações */}
         {cliente.observacoes && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Observações</h2>
+            <h2 className="text-xl font-bold text-black mb-4">Observações</h2>
             <p className="text-gray-700 whitespace-pre-wrap">{cliente.observacoes}</p>
           </div>
         )}

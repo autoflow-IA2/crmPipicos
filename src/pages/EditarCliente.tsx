@@ -23,12 +23,12 @@ const EditarCliente: React.FC = () => {
   if (!cliente) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-black mb-2">
           Cliente não encontrado
         </h2>
         <button
           onClick={() => navigate('/clientes')}
-          className="text-primary-600 hover:text-primary-700"
+          className="text-purple-600 hover:text-purple-700 font-bold"
         >
           Voltar para lista de clientes
         </button>
@@ -39,8 +39,8 @@ const EditarCliente: React.FC = () => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Editar Cliente</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-3xl font-bold text-black">Editar Cliente</h1>
+        <p className="text-black font-bold mt-1">
           Atualize os dados do cliente {cliente.nome}
         </p>
       </div>

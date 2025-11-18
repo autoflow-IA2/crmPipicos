@@ -90,7 +90,7 @@ const Clientes: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-purple-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">Total de Clientes</p>
+                <p className="text-sm font-bold text-black mb-1">Total de Clientes</p>
                 <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">{estatisticas.total}</p>
               </div>
               <div className="p-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-lg">
@@ -104,7 +104,7 @@ const Clientes: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-green-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">Clientes Ativos</p>
+                <p className="text-sm font-bold text-black mb-1">Clientes Ativos</p>
                 <p className="text-4xl font-bold text-green-600">{estatisticas.ativos}</p>
               </div>
               <div className="p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg">
@@ -118,8 +118,8 @@ const Clientes: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-gray-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">Clientes Inativos</p>
-                <p className="text-4xl font-bold text-gray-600">{estatisticas.inativos}</p>
+                <p className="text-sm font-bold text-black mb-1">Clientes Inativos</p>
+                <p className="text-4xl font-bold text-gray-700">{estatisticas.inativos}</p>
               </div>
               <div className="p-4 bg-gradient-to-br from-gray-400 to-gray-500 rounded-2xl shadow-lg">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,7 +133,7 @@ const Clientes: React.FC = () => {
 
       {/* Filtros */}
       <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-purple-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-black mb-4 flex items-center gap-2">
           <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
           </svg>
@@ -141,7 +141,7 @@ const Clientes: React.FC = () => {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-black mb-2">
               Buscar Cliente
             </label>
             <div className="relative">
@@ -159,7 +159,7 @@ const Clientes: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-black mb-2">
               Status
             </label>
             <select
@@ -176,7 +176,7 @@ const Clientes: React.FC = () => {
 
         {(searchTerm || statusFilter !== 'ativos') && (
           <div className="mt-4 flex items-center justify-between pt-4 border-t border-purple-100">
-            <p className="text-sm font-medium text-gray-700">
+            <p className="text-sm font-bold text-black">
               <span className="text-purple-600 font-bold">{clientesFiltrados.length}</span> cliente(s) encontrado(s)
             </p>
             <button
@@ -193,13 +193,13 @@ const Clientes: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-purple-100">
         {clientesFiltrados.length === 0 ? (
           <div className="p-12 text-center">
-            <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-16 h-16 mx-auto text-purple-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            <h3 className="text-xl font-bold text-black mb-2">
               Nenhum cliente encontrado
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-700 font-medium">
               {searchTerm
                 ? 'Tente ajustar os filtros de busca'
                 : 'Clique em "Novo Cliente" para cadastrar o primeiro cliente'}
@@ -235,19 +235,19 @@ const Clientes: React.FC = () => {
                   <tr key={cliente.id} className="hover:bg-purple-50 transition-all duration-200">
                     <td className="px-6 py-4">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{cliente.nome}</div>
+                        <div className="text-sm font-bold text-black">{cliente.nome}</div>
                         {cliente.cpf_cnpj && (
-                          <div className="text-sm text-gray-500">{cliente.cpf_cnpj}</div>
+                          <div className="text-sm text-gray-600">{cliente.cpf_cnpj}</div>
                         )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900">{cliente.telefone}</div>
+                      <div className="text-sm font-semibold text-black">{cliente.telefone}</div>
                       {cliente.email && (
-                        <div className="text-sm text-gray-500">{cliente.email}</div>
+                        <div className="text-sm text-gray-600">{cliente.email}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                    <td className="px-6 py-4 text-sm font-semibold text-black">
                       {cliente.cidade || '-'}
                     </td>
                     <td className="px-6 py-4">

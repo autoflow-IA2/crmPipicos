@@ -18,8 +18,8 @@ const NovoAgendamento: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Novo Agendamento</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-black">Novo Agendamento</h1>
+        <p className="text-black font-bold mt-2">
           Preencha os dados abaixo para criar um novo agendamento
         </p>
       </div>

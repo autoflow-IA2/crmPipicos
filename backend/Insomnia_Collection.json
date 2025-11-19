@@ -1,0 +1,275 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-11-18T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_health",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/health",
+      "name": "Health Check",
+      "description": "Verifica se a API está funcionando",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_agendamentos",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos",
+      "name": "Listar Agendamentos",
+      "description": "Lista todos os agendamentos com filtros opcionais",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "status",
+          "value": "confirmado",
+          "disabled": true
+        },
+        {
+          "name": "dataInicio",
+          "value": "2025-11-01",
+          "disabled": true
+        },
+        {
+          "name": "dataFim",
+          "value": "2025-11-30",
+          "disabled": true
+        }
+      ],
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000001000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_agendamento",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos/{{ _.agendamento_id }}",
+      "name": "Buscar Agendamento por ID",
+      "description": "Retorna detalhes de um agendamento específico",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000002000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_agendamento",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos",
+      "name": "Criar Agendamento",
+      "description": "Cria um novo agendamento",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cliente_nome\": \"Maria Santos\",\n  \"cliente_telefone\": \"11988888888\",\n  \"cliente_email\": \"maria@example.com\",\n  \"cliente_endereco\": \"Rua das Flores, 123\",\n  \"cliente_bairro\": \"Centro\",\n  \"cliente_cidade\": \"São Paulo\",\n  \"cliente_cep\": \"01234-567\",\n  \"tipo_servico\": \"completo\",\n  \"data_evento\": \"2025-12-15\",\n  \"hora_inicio\": \"15:00\",\n  \"hora_fim\": \"19:00\",\n  \"tipo_evento\": \"Aniversário infantil\",\n  \"num_convidados\": 50,\n  \"faixa_etaria\": \"infantil\",\n  \"brinquedos_selecionados\": [\n    {\n      \"id\": \"brinquedo-1\",\n      \"nome\": \"Pula-pula\",\n      \"quantidade\": 1,\n      \"valor\": 200.00\n    }\n  ],\n  \"recreadores_quantidade\": 2,\n  \"tema_decoracao\": \"Super-heróis\",\n  \"valor_total\": 800.00,\n  \"valor_sinal\": 200.00,\n  \"valor_restante\": 600.00,\n  \"forma_pagamento\": \"PIX\",\n  \"status_pagamento\": \"sinal_pago\",\n  \"status\": \"pendente\",\n  \"observacoes\": \"Cliente prefere balões azuis\",\n  \"necessita_montagem\": true,\n  \"hora_montagem\": \"13:00\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000003000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_agendamento",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos/{{ _.agendamento_id }}",
+      "name": "Atualizar Agendamento",
+      "description": "Atualiza um agendamento existente",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"confirmado\",\n  \"valor_sinal\": 250.00,\n  \"observacoes\": \"Cliente solicitou mais balões\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000004000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_status",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos/{{ _.agendamento_id }}/status",
+      "name": "Atualizar Status",
+      "description": "Atualiza apenas o status do agendamento",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"confirmado\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000005000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_agendamento",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos/{{ _.agendamento_id }}",
+      "name": "Deletar Agendamento",
+      "description": "Remove um agendamento",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000006000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_verificar_disponibilidade",
+      "parentId": "fld_agendamentos",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/agendamentos/verificar-disponibilidade",
+      "name": "Verificar Disponibilidade",
+      "description": "Verifica conflitos de horário",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"dataEvento\": \"2025-12-15\",\n  \"horaInicio\": \"15:00\",\n  \"horaFim\": \"19:00\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-API-Key",
+          "value": "{{ _.api_key }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1700000007000,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "fld_agendamentos",
+      "parentId": "wrk_main",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "name": "Agendamento PPC API",
+      "description": "Collection para testar a API de Agendamentos",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1700000000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_main",
+      "parentId": null,
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "name": "Agendamento PPC",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_main",
+      "parentId": "wrk_main",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3001/api",
+        "api_key": "sua-api-key-aqui",
+        "agendamento_id": "coloque-id-de-teste-aqui"
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "api_key", "agendamento_id"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1700000000000,
+      "_type": "environment"
+    }
+  ]
+}

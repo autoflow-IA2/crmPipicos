@@ -21,7 +21,8 @@
       "Bash(docker --version:*)",
       "Bash(docker-compose:*)",
       "Bash(cat:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

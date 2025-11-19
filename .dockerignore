@@ -2,15 +2,14 @@
 node_modules
 npm-debug.log
 yarn-error.log
-package-lock.json
-yarn.lock
 
-# Environment files
+# Environment files (will be injected at build time)
 .env
 .env.local
 .env.development
 .env.production
 .env.*.local
+.env.docker
 
 # Git
 .git
@@ -20,11 +19,12 @@ yarn.lock
 # IDE
 .vscode
 .idea
+.claude
 *.swp
 *.swo
 .DS_Store
 
-# Build output
+# Build output (will be regenerated)
 dist
 dist-ssr
 *.local
@@ -50,42 +50,42 @@ coverage
 __tests__
 .nyc_output
 
-# Documentation (keep only README.md)
+# Documentation (exclude all md files)
 *.md
-!README.md
-!DOCKER_README.md
 
-# Backend directory (handled separately)
+# Backend directory (handled separately in build)
 backend/node_modules
 backend/dist
 backend/.env
+backend/*.log
 
 # Scripts
 *.sh
 *.ps1
 *.bat
+abrir-firewall.ps1
+update-fonts.ps1
 
-# Others
-.eslintrc.cjs
-.prettierrc
-.editorconfig
+# Database scripts (not needed in production)
+check-*.js
+create-*.js
+import-*.js
 
 # Docker files themselves
-Dockerfile*
+Dockerfile.frontend
 docker-compose*.yml
-.dockerignore
 
 # CI/CD
 .github
 .gitlab-ci.yml
 .travis.yml
 
-# Database
+# Database files
 *.db
 *.sqlite
 *.sqlite3
 
-# Supabase
+# Supabase local files
 supabase/.temp
 supabase/functions
 
@@ -94,3 +94,6 @@ tmp/
 temp/
 *.cache
 .cache/
+
+# Build artifacts
+null_data.txt

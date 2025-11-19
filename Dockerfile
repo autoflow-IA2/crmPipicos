@@ -8,22 +8,16 @@
 # ==========================================
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /app/frontend
+WORKDIR /app
 
 # Copy frontend package files
 COPY package*.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 
-# Copy frontend source and config files
-COPY src ./src
-COPY index.html ./
-COPY vite.config.ts ./
-COPY tsconfig.json ./
-COPY tsconfig.node.json ./
-COPY tailwind.config.js ./
-COPY postcss.config.js ./
+# Copy all frontend files (using .dockerignore to exclude unnecessary files)
+COPY . .
 
-# Build frontend
+# Build frontend with build args
 ARG VITE_SUPABASE_URL
 ARG VITE_SUPABASE_ANON_KEY
 ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
@@ -36,15 +30,14 @@ RUN npm run build
 # ==========================================
 FROM node:20-alpine AS backend-builder
 
-WORKDIR /app/backend
+WORKDIR /app
 
 # Copy backend package files
 COPY backend/package*.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 
 # Copy backend source
-COPY backend/src ./src
-COPY backend/tsconfig.json ./
+COPY backend/ ./
 
 # Build backend
 RUN npm run build
@@ -54,23 +47,25 @@ RUN npm run build
 # ==========================================
 FROM node:20-alpine
 
-# Install nginx and wget for health checks
-RUN apk add --no-cache nginx wget
+# Install nginx and wget
+RUN apk add --no-cache nginx wget bash
 
 WORKDIR /app
 
-# Setup nginx
-COPY nginx.conf /etc/nginx/http.d/default.conf
-RUN mkdir -p /run/nginx /var/log/nginx
+# Setup nginx directories
+RUN mkdir -p /run/nginx /var/log/nginx /usr/share/nginx/html
 
-# Copy frontend build to nginx
-COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/http.d/default.conf
+
+# Copy frontend build
+COPY --from=frontend-builder /app/dist /usr/share/nginx/html
 
 # Setup backend
 WORKDIR /app/backend
 COPY backend/package*.json ./
-RUN npm ci --only=production --silent
-COPY --from=backend-builder /app/backend/dist ./dist
+RUN npm ci --only=production --silent --legacy-peer-deps
+COPY --from=backend-builder /app/dist ./dist
 
 # Environment variables
 ENV NODE_ENV=production
@@ -84,17 +79,41 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3001/api/health || exit 1
 
 # Create startup script
-RUN echo '#!/bin/sh' > /app/start.sh && \
-    echo 'echo "Starting backend..."' >> /app/start.sh && \
-    echo 'cd /app/backend && node dist/server.js &' >> /app/start.sh && \
-    echo 'BACKEND_PID=$!' >> /app/start.sh && \
-    echo 'echo "Backend started with PID $BACKEND_PID"' >> /app/start.sh && \
-    echo 'echo "Starting nginx..."' >> /app/start.sh && \
-    echo 'nginx -g "daemon off;" &' >> /app/start.sh && \
-    echo 'NGINX_PID=$!' >> /app/start.sh && \
-    echo 'echo "Nginx started with PID $NGINX_PID"' >> /app/start.sh && \
-    echo 'wait $BACKEND_PID $NGINX_PID' >> /app/start.sh && \
-    chmod +x /app/start.sh
+RUN cat > /app/start.sh <<'EOF'
+#!/bin/sh
+set -e
+
+echo "=========================================="
+echo "Starting CRM Agendamentos Services"
+echo "=========================================="
+
+# Start backend
+echo "Starting Backend API..."
+cd /app/backend
+node dist/server.js &
+BACKEND_PID=$!
+echo "✓ Backend started (PID: $BACKEND_PID)"
+
+# Wait for backend to be ready
+sleep 5
+
+# Start nginx
+echo "Starting Nginx..."
+nginx -g "daemon off;" &
+NGINX_PID=$!
+echo "✓ Nginx started (PID: $NGINX_PID)"
+
+echo "=========================================="
+echo "Services running successfully!"
+echo "Frontend: http://localhost:80"
+echo "Backend: http://localhost:3001"
+echo "=========================================="
+
+# Wait for processes
+wait $BACKEND_PID $NGINX_PID
+EOF
+
+RUN chmod +x /app/start.sh
 
 # Start both services
 CMD ["/app/start.sh"]

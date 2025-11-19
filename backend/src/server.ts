@@ -77,11 +77,12 @@ const startServer = async () => {
     initSupabase();
     console.log('✅ Conectado ao Supabase com sucesso!');
 
-    // Iniciar servidor HTTP
-    app.listen(PORT, () => {
+    // Iniciar servidor HTTP em todas as interfaces (0.0.0.0 permite IPv4 e IPv6)
+    app.listen(PORT, '0.0.0.0', () => {
       console.log('');
       console.log('🚀 ====================================== 🚀');
       console.log(`   Servidor rodando em http://localhost:${PORT}`);
+      console.log(`   Servidor acessível em http://127.0.0.1:${PORT}`);
       console.log(`   Ambiente: ${process.env.NODE_ENV || 'development'}`);
       console.log(`   Health Check: http://localhost:${PORT}/api/health`);
       console.log('🚀 ====================================== 🚀');

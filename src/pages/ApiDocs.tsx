@@ -3,12 +3,27 @@ import { Button } from '../components/common';
 
 const ApiDocs: React.FC = () => {
   const [apiKey, setApiKey] = useState('');
+  const [generatedKey, setGeneratedKey] = useState('');
 
   const baseUrl = 'http://localhost:3001';
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     alert('Copiado para a área de transferência!');
+  };
+
+  // Função para gerar API Key segura
+  const generateApiKey = () => {
+    // Gera uma string aleatória segura usando crypto API
+    const array = new Uint8Array(32);
+    window.crypto.getRandomValues(array);
+    const key = btoa(String.fromCharCode(...array))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    setGeneratedKey(key);
+    setApiKey(key);
   };
 
   return (
@@ -44,14 +59,70 @@ const ApiDocs: React.FC = () => {
 
           <div>
             <label className="block text-sm font-bold text-black mb-2">
-              API Key (configure no arquivo .env do backend):
+              Gerar Nova API Key:
+            </label>
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <Button onClick={generateApiKey} variant="primary">
+                  🔑 Gerar API Key Segura
+                </Button>
+                <Button
+                  onClick={() => copyToClipboard(generatedKey || apiKey)}
+                  variant="secondary"
+                  disabled={!generatedKey && !apiKey}
+                >
+                  Copiar
+                </Button>
+              </div>
+
+              {generatedKey && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-sm font-bold text-green-800 mb-2">✅ API Key gerada com sucesso!</h4>
+                      <div className="bg-white rounded border border-green-300 p-3 mb-2">
+                        <code className="text-sm text-purple-600 break-all font-mono">
+                          {generatedKey}
+                        </code>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm font-bold text-green-700">
+                          📋 Próximos passos:
+                        </p>
+                        <ol className="list-decimal list-inside text-sm text-green-700 space-y-1 ml-2">
+                          <li>Copie a chave usando o botão "Copiar" acima</li>
+                          <li>Abra o arquivo <code className="bg-white px-1 rounded">backend/.env</code></li>
+                          <li>Cole a chave na linha: <code className="bg-white px-1 rounded">API_KEY=sua-chave-aqui</code></li>
+                          <li>Reinicie o servidor backend</li>
+                          <li>Use esta chave nos testes abaixo</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <p className="text-xs text-gray-600">
+                💡 Gere uma chave segura de 256 bits para proteger sua API
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t pt-4">
+            <label className="block text-sm font-bold text-black mb-2">
+              Ou cole sua API Key existente (para testar):
             </label>
             <div className="flex gap-2">
               <input
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Cole sua API Key aqui para testar"
+                placeholder="Cole sua API Key aqui para testar os exemplos"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
               />
             </div>

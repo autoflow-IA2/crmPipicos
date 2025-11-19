@@ -14,7 +14,10 @@
       "Bash(node create-clientes-table.js:*)",
       "Bash(node check-clientes-table.js:*)",
       "Bash(powershell -ExecutionPolicy Bypass -File update-fonts.ps1:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(ipconfig:*)",
+      "Bash(netsh advfirewall firewall show rule:*)",
+      "Bash(netsh advfirewall firewall:*)"
     ],
     "deny": [],
     "ask": []

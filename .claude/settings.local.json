@@ -17,7 +17,9 @@
       "Bash(curl:*)",
       "Bash(ipconfig:*)",
       "Bash(netsh advfirewall firewall show rule:*)",
-      "Bash(netsh advfirewall firewall:*)"
+      "Bash(netsh advfirewall firewall:*)",
+      "Bash(docker --version:*)",
+      "Bash(docker-compose:*)"
     ],
     "deny": [],
     "ask": []

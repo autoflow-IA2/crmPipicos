@@ -22,13 +22,9 @@ RUN npm ci
 # Copy source code
 COPY src/ ./src/
 
-# Build arguments for Supabase (optional - can be hardcoded)
-ARG VITE_SUPABASE_URL
-ARG VITE_SUPABASE_ANON_KEY
-
-# Set environment variables for build
-ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL:-https://gjqkkiuqryhhobmcevuo.supabase.co}
-ENV VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqcWtraXVxcnloaG9ibWNldnVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5NzI1NjUsImV4cCI6MjA3ODU0ODU2NX0.-sCj_ojV9nIyNhEcLOcQftA-oN4P9ybcVziA0fT_Q28}
+# Set environment variables for Vite build (hardcoded)
+ENV VITE_SUPABASE_URL=https://gjqkkiuqryhhobmcevuo.supabase.co
+ENV VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqcWtraXVxcnloaG9ibWNldnVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5NzI1NjUsImV4cCI6MjA3ODU0ODU2NX0.-sCj_ojV9nIyNhEcLOcQftA-oN4P9ybcVziA0fT_Q28
 
 # Build frontend
 RUN npm run build:frontend

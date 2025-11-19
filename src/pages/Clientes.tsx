@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useClientes, useClientesEstatisticas, useSoftDeleteCliente, useReativarCliente } from '../hooks';
 import { Button, Loading } from '../components/common';
-import { Cliente } from '../types/cliente.types';
 import { format } from 'date-fns';
 
 const Clientes: React.FC = () => {

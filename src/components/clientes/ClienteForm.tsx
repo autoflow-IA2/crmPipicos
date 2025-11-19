@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Cliente, CreateClienteDTO, UpdateClienteDTO } from '../../types/cliente.types';
-import { Button, Input } from '../common';
+import { Button } from '../common';
 
 interface ClienteFormProps {
   cliente?: Cliente;

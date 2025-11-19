@@ -13,6 +13,7 @@ import ClienteDetalhes from './pages/ClienteDetalhes';
 import EditarCliente from './pages/EditarCliente';
 import Estoque from './pages/Estoque';
 import Relatorios from './pages/Relatorios';
+import ApiDocs from './pages/ApiDocs';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/clientes/:id/editar" element={<EditarCliente />} />
           <Route path="/estoque" element={<Estoque />} />
           <Route path="/relatorios" element={<Relatorios />} />
+          <Route path="/api-docs" element={<ApiDocs />} />
         </Routes>
       </Layout>
     </Router>

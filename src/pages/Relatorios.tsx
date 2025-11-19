@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 const Relatorios: React.FC = () => {
   const [dataInicio, setDataInicio] = useState(format(startOfMonth(new Date()), 'yyyy-MM-dd'));
   const [dataFim, setDataFim] = useState(format(endOfMonth(new Date()), 'yyyy-MM-dd'));
-  const [tipoRelatorio, setTipoRelatorio] = useState<'geral' | 'financeiro' | 'mensal'>('geral');
 
   const { data: agendamentos = [], isLoading } = useAgendamentos({
     dataInicio,

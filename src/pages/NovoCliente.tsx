@@ -2,14 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCreateCliente } from '../hooks';
 import { ClienteForm } from '../components/clientes';
-import { CreateClienteDTO } from '../types/cliente.types';
+import { CreateClienteDTO, UpdateClienteDTO } from '../types/cliente.types';
 
 const NovoCliente: React.FC = () => {
   const navigate = useNavigate();
   const createCliente = useCreateCliente();
 
-  const handleSubmit = async (data: CreateClienteDTO) => {
-    await createCliente.mutateAsync(data);
+  const handleSubmit = async (data: CreateClienteDTO | UpdateClienteDTO) => {
+    await createCliente.mutateAsync(data as CreateClienteDTO);
     navigate('/clientes');
   };
 

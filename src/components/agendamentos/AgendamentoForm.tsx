@@ -59,43 +59,47 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
   const [etapaAtual, setEtapaAtual] = useState(1);
   const [erros, setErros] = useState<Record<string, string>>({});
 
-  // Carregar dados iniciais no modo de edição
+  // Carregar dados iniciais (modo de edição ou dados do calendário)
   useEffect(() => {
-    if (mode === 'edit' && initialData) {
-      setClienteNome(initialData.cliente_nome || '');
-      setClienteTelefone(initialData.cliente_telefone || '');
-      setClienteEmail(initialData.cliente_email || '');
-      setClienteEndereco(initialData.cliente_endereco || '');
-      setClienteBairro(initialData.cliente_bairro || '');
-      setClienteCidade(initialData.cliente_cidade || '');
-      setClienteCep(initialData.cliente_cep || '');
+    if (initialData) {
+      // Dados do cliente (somente no modo edit)
+      if (mode === 'edit') {
+        setClienteNome(initialData.cliente_nome || '');
+        setClienteTelefone(initialData.cliente_telefone || '');
+        setClienteEmail(initialData.cliente_email || '');
+        setClienteEndereco(initialData.cliente_endereco || '');
+        setClienteBairro(initialData.cliente_bairro || '');
+        setClienteCidade(initialData.cliente_cidade || '');
+        setClienteCep(initialData.cliente_cep || '');
 
-      setTipoServico(initialData.tipo_servico || 'brinquedos');
+        setTipoServico(initialData.tipo_servico || 'brinquedos');
+        setTipoEvento(initialData.tipo_evento || '');
+        setNumConvidados(initialData.num_convidados?.toString() || '');
+        setFaixaEtaria(initialData.faixa_etaria?.toString() || '');
+
+        setFormaPagamento(initialData.forma_pagamento || '');
+        setValorSinal(initialData.valor_sinal?.toString() || '');
+        setObservacoes(initialData.observacoes || '');
+
+        // Carregar brinquedos selecionados
+        if (initialData.brinquedos_selecionados && initialData.brinquedos_selecionados.length > 0) {
+          const brinquedosCarregados: BrinquedoSelecionado[] = initialData.brinquedos_selecionados.map((item: any) => ({
+            brinquedo: {
+              id: item.id,
+              nome: item.nome,
+              valor_locacao: item.valor,
+              quantidade_estoque: 999,
+            } as Brinquedo,
+            quantidade: item.quantidade,
+          }));
+          setBrinquedosSelecionados(brinquedosCarregados);
+        }
+      }
+
+      // Dados de data/hora (sempre, mesmo no modo create quando vem do calendário)
       setDataEvento(initialData.data_evento || '');
       setHoraInicio(initialData.hora_inicio || '');
       setHoraFim(initialData.hora_fim || '');
-      setTipoEvento(initialData.tipo_evento || '');
-      setNumConvidados(initialData.num_convidados?.toString() || '');
-      setFaixaEtaria(initialData.faixa_etaria?.toString() || '');
-
-      setFormaPagamento(initialData.forma_pagamento || '');
-      setValorSinal(initialData.valor_sinal?.toString() || '');
-      setObservacoes(initialData.observacoes || '');
-
-      // Carregar brinquedos selecionados
-      if (initialData.brinquedos_selecionados && initialData.brinquedos_selecionados.length > 0) {
-        // Como temos IDs dos brinquedos, precisamos buscar os objetos completos
-        const brinquedosCarregados: BrinquedoSelecionado[] = initialData.brinquedos_selecionados.map((item: any) => ({
-          brinquedo: {
-            id: item.id,
-            nome: item.nome,
-            valor_locacao: item.valor,
-            quantidade_estoque: 999, // Placeholder, não temos essa info no agendamento
-          } as Brinquedo,
-          quantidade: item.quantidade,
-        }));
-        setBrinquedosSelecionados(brinquedosCarregados);
-      }
     }
   }, [mode, initialData]);
 

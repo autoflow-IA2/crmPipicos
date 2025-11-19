@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, dateFnsLocalizer, View } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
@@ -49,6 +49,20 @@ const Calendario: React.FC = () => {
   const handleSelectEvent = useCallback(
     (event: CalendarEvent) => {
       navigate(`/agendamentos/${event.id}`);
+    },
+    [navigate]
+  );
+
+  // Criar novo agendamento ao clicar em um slot vazio
+  const handleSelectSlot = useCallback(
+    (slotInfo: { start: Date; end: Date; action: string }) => {
+      // Formatar data para passar como query param
+      const dataEvento = format(slotInfo.start, 'yyyy-MM-dd');
+      const horaInicio = format(slotInfo.start, 'HH:mm');
+      const horaFim = format(slotInfo.end, 'HH:mm');
+
+      // Navegar para página de novo agendamento com data pré-preenchida
+      navigate(`/agendamentos/novo?data=${dataEvento}&horaInicio=${horaInicio}&horaFim=${horaFim}`);
     },
     [navigate]
   );
@@ -158,6 +172,7 @@ const Calendario: React.FC = () => {
           date={date}
           onNavigate={setDate}
           onSelectEvent={handleSelectEvent}
+          onSelectSlot={handleSelectSlot}
           eventPropGetter={eventStyleGetter}
           components={{
             event: EventComponent,
@@ -180,10 +195,16 @@ const Calendario: React.FC = () => {
             </svg>
           </div>
           <div className="ml-3">
-            <p className="text-sm font-bold text-black">
-              <strong>Dica:</strong> Clique em um evento para ver os detalhes completos do agendamento.
-              Use os botões "Mês", "Semana" e "Dia" para alternar entre as visualizações.
-            </p>
+            <div className="text-sm font-bold text-black space-y-1">
+              <p>
+                <strong>💡 Dicas:</strong>
+              </p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Clique em um evento para ver os detalhes completos do agendamento</li>
+                <li><strong className="text-purple-600">Clique em um espaço vazio para criar um novo agendamento</strong></li>
+                <li>Use os botões "Mês", "Semana" e "Dia" para alternar entre visualizações</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

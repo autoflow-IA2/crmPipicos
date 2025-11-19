@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCliente, useUpdateCliente } from '../hooks';
 import { ClienteForm } from '../components/clientes';
 import { Loading } from '../components/common';
-import { UpdateClienteDTO } from '../types/cliente.types';
+import { CreateClienteDTO, UpdateClienteDTO } from '../types/cliente.types';
 
 const EditarCliente: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,8 +11,8 @@ const EditarCliente: React.FC = () => {
   const { data: cliente, isLoading } = useCliente(id);
   const updateCliente = useUpdateCliente();
 
-  const handleSubmit = async (data: UpdateClienteDTO) => {
-    await updateCliente.mutateAsync(data);
+  const handleSubmit = async (data: CreateClienteDTO | UpdateClienteDTO) => {
+    await updateCliente.mutateAsync(data as UpdateClienteDTO);
     navigate(`/clientes/${id}`);
   };
 

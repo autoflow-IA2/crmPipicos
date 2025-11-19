@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { parseISO, parse } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { useAgendamentos } from './useAgendamentos';
 import { Agendamento, TipoServico } from '../types/agendamento.types';
 
@@ -32,13 +32,13 @@ export const CORES_STATUS: Record<string, string> = {
 };
 
 export const useCalendario = () => {
-  const { agendamentos, isLoading, error } = useAgendamentos();
+  const { data: agendamentos, isLoading, error } = useAgendamentos();
 
   // Transforma agendamentos em eventos do calendário
   const events = useMemo<CalendarEvent[]>(() => {
     if (!agendamentos) return [];
 
-    return agendamentos.map((agendamento) => {
+    return agendamentos.map((agendamento: Agendamento) => {
       const dataEvento = parseISO(agendamento.data_evento);
 
       // Parse das horas (formato HH:mm:ss)

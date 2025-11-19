@@ -34,7 +34,7 @@ WORKDIR /app
 
 # Copy backend package files
 COPY backend/package*.json ./
-RUN npm ci --silent --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
 # Copy backend source
 COPY backend/ ./

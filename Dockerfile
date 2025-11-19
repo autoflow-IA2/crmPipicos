@@ -14,9 +14,8 @@ WORKDIR /app/frontend
 COPY package*.json ./
 RUN npm ci --silent
 
-# Copy frontend source
+# Copy frontend source and config files
 COPY src ./src
-COPY public ./public
 COPY index.html ./
 COPY vite.config.ts ./
 COPY tsconfig.json ./

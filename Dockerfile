@@ -21,7 +21,6 @@ RUN npm ci --silent
 
 # Copy source code
 COPY src/ ./src/
-COPY public/ ./public/ 2>/dev/null || true
 
 # Build arguments for Supabase (optional - can be hardcoded)
 ARG VITE_SUPABASE_URL

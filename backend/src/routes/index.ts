@@ -4,7 +4,7 @@ import agendamentosRoutes from './agendamentos.routes';
 const router = Router();
 
 // Rota de health check
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {

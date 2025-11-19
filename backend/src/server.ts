@@ -15,7 +15,7 @@ dotenv.config();
 const app: Application = express();
 
 // Porta do servidor
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 // Configurar CORS
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['*'];
@@ -44,7 +44,7 @@ app.use(express.json()); // Parse JSON body
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded body
 
 // Rota pública de health check (sem autenticação)
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     success: true,
     data: {

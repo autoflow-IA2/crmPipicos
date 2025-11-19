@@ -5,7 +5,7 @@ import { ZodSchema } from 'zod';
  * Middleware genérico de validação usando Zod
  */
 export const validateRequest = (schema: ZodSchema) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, _res: Response, next: NextFunction) => {
     try {
       // Validar o body da requisição
       await schema.parseAsync(req.body);
@@ -21,7 +21,7 @@ export const validateRequest = (schema: ZodSchema) => {
  * Middleware para validar query params
  */
 export const validateQuery = (schema: ZodSchema) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, _res: Response, next: NextFunction) => {
     try {
       // Validar os query params
       await schema.parseAsync(req.query);
@@ -36,7 +36,7 @@ export const validateQuery = (schema: ZodSchema) => {
  * Middleware para validar params de rota
  */
 export const validateParams = (schema: ZodSchema) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, _res: Response, next: NextFunction) => {
     try {
       // Validar os params da rota
       await schema.parseAsync(req.params);

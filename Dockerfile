@@ -12,7 +12,7 @@ WORKDIR /app
 
 # Copy root package files
 COPY package.json package-lock.json ./
-COPY tsconfig.json vite.config.ts ./
+COPY tsconfig.json tsconfig.node.json vite.config.ts ./
 COPY index.html ./
 COPY postcss.config.js tailwind.config.js ./
 

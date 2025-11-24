@@ -162,7 +162,7 @@ export const obterDisponibilidadePeriodo = async (req: Request, res: Response) =
   }
 };
 
-export const finalizarEventosPassados = async (req: Request, res: Response) => {
+export const finalizarEventosPassados = async (_req: Request, res: Response) => {
   try {
     const resultado = await inventarioService.finalizarEventosPassados();
 

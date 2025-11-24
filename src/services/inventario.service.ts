@@ -72,8 +72,8 @@ export const inventarioService = {
       data_fim: request.data_fim,
     });
 
-    if (request.brinquedo_id) {
-      params.append('brinquedo_id', request.brinquedo_id);
+    if (request.brinquedo_nome) {
+      params.append('brinquedo_nome', request.brinquedo_nome);
     }
 
     const response = await fetch(`${API_URL}/inventario/disponibilidade-periodo?${params}`, {

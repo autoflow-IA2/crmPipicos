@@ -20,7 +20,7 @@ router.post('/verificar-multiplos', inventarioController.verificarDisponibilidad
 /**
  * @route GET /api/inventario/disponibilidade-periodo
  * @desc Retorna disponibilidade de itens em um período (para calendário)
- * @query data_inicio, data_fim, brinquedo_id (opcional)
+ * @query data_inicio, data_fim, brinquedo_nome (opcional)
  * @access Autenticado (API Key)
  */
 router.get('/disponibilidade-periodo', inventarioController.obterDisponibilidadePeriodo);

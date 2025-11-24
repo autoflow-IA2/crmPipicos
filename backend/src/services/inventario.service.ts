@@ -20,6 +20,70 @@ class InventarioService {
   private readonly STATUS_BLOQUEANTES = ['pendente', 'confirmado', 'em_preparacao', 'entregue'];
 
   /**
+   * Normaliza o nome do brinquedo removendo textos descritivos extras
+   * Exemplos:
+   * - "Fábrica de Algodão Doce (materiais inclusos) - 3hrs" → "ALGODÃO DOCE"
+   * - "Máquina de Pula Pula" → "PULA PULA"
+   * - "Cama Elástica Pink" → "CAMA ELÁSTICA ROSA"
+   */
+  private normalizarNomeBrinquedo(nome: string): string {
+    let normalizado = nome;
+
+    // Remove conteúdo entre parênteses: (materiais e monitor inclusos)
+    normalizado = normalizado.replace(/\s*\([^)]*\)\s*/g, ' ');
+
+    // Remove durações de tempo: - 3hrs, - 2h, -3h
+    normalizado = normalizado.replace(/\s*-\s*\d+\s*hrs?\s*/gi, ' ');
+
+    // Remove prefixos comuns
+    const prefixosRemover = [
+      'Fábrica de ',
+      'Máquina de ',
+      'Kit de ',
+      'Conjunto de ',
+      'Mesa de ',
+      'Jogo de ',
+    ];
+
+    for (const prefixo of prefixosRemover) {
+      const regex = new RegExp(`^${prefixo}`, 'i');
+      normalizado = normalizado.replace(regex, '');
+    }
+
+    // Substituir sinônimos e variações comuns (case-insensitive)
+    const sinonimos: Record<string, string> = {
+      'pink': 'ROSA',
+      'roxinho': 'ROXO',
+      'pequeno': 'PEQUENA',
+      'grande': 'GRANDE',
+      'médio': 'MÉDIA',
+      'medio': 'MÉDIA',
+      'baby': 'BABY',
+      'inflavel': 'INFLÁVEL',
+      'elastica': 'ELÁSTICA',
+      'piscina': 'PISCINA',
+      'futebol': 'FUTEBOL',
+      'sabao': 'SABÃO',
+      'algodao': 'ALGODÃO',
+      'pipoca': 'PIPOCA',
+    };
+
+    // Converte para uppercase primeiro
+    normalizado = normalizado.toUpperCase();
+
+    // Aplica substituições de sinônimos
+    for (const [variacao, padrao] of Object.entries(sinonimos)) {
+      const regex = new RegExp(`\\b${variacao.toUpperCase()}\\b`, 'gi');
+      normalizado = normalizado.replace(regex, padrao);
+    }
+
+    // Remove espaços múltiplos e trim
+    normalizado = normalizado.replace(/\s+/g, ' ').trim();
+
+    return normalizado;
+  }
+
+  /**
    * Verifica se dois períodos de tempo se sobrepõem
    */
   private horariosSesobrepõem(
@@ -58,20 +122,78 @@ class InventarioService {
       excludeAgendamentoId,
     } = request;
 
+    // Normalizar o nome do brinquedo para busca mais flexível
+    const nomeNormalizado = this.normalizarNomeBrinquedo(brinquedo_nome);
+
+    console.log(`[InventarioService] Buscando brinquedo:`, {
+      original: brinquedo_nome,
+      normalizado: nomeNormalizado,
+    });
+
     // 1. Buscar informações do brinquedo (case-insensitive com wildcards)
     const supabase = getSupabase();
-    const { data: brinquedos, error: brinquedoError } = await supabase
+    let { data: brinquedos, error: brinquedoError } = await supabase
       .from('brinquedos')
       .select('id, nome, quantidade_estoque, status')
-      .ilike('nome', `%${brinquedo_nome}%`);
+      .ilike('nome', `%${nomeNormalizado}%`);
+
+    // Se não encontrar com nome normalizado, tentar com o nome original
+    if ((!brinquedos || brinquedos.length === 0) && nomeNormalizado !== brinquedo_nome.toUpperCase()) {
+      console.log(`[InventarioService] Tentando com nome original...`);
+      const resultado = await supabase
+        .from('brinquedos')
+        .select('id, nome, quantidade_estoque, status')
+        .ilike('nome', `%${brinquedo_nome}%`);
+
+      brinquedos = resultado.data;
+      brinquedoError = resultado.error;
+    }
+
+    // Se ainda não encontrar, tentar busca por palavras-chave principais
+    if (!brinquedos || brinquedos.length === 0) {
+      console.log(`[InventarioService] Tentando busca por palavras-chave...`);
+
+      // Extrair palavras-chave (palavras com 4+ caracteres)
+      const palavrasChave = nomeNormalizado
+        .split(/\s+/)
+        .filter(palavra => palavra.length >= 4 && !['PARA', 'COM', 'SEM'].includes(palavra));
+
+      if (palavrasChave.length > 0) {
+        // Buscar todos os brinquedos e filtrar por palavras-chave
+        const { data: todosBrinquedos } = await supabase
+          .from('brinquedos')
+          .select('id, nome, quantidade_estoque, status');
+
+        if (todosBrinquedos) {
+          brinquedos = todosBrinquedos.filter(b => {
+            const nomeDb = b.nome.toUpperCase();
+            // Brinquedo deve conter pelo menos 50% das palavras-chave
+            const matches = palavrasChave.filter(palavra => nomeDb.includes(palavra));
+            return matches.length >= Math.ceil(palavrasChave.length * 0.5);
+          });
+
+          if (brinquedos.length > 0) {
+            console.log(`[InventarioService] Encontrado por palavras-chave: ${brinquedos[0].nome}`);
+          }
+        }
+      }
+    }
 
     if (brinquedoError) {
       throw new Error(`Erro ao buscar brinquedo: ${brinquedoError.message}`);
     }
 
     if (!brinquedos || brinquedos.length === 0) {
-      throw new Error(`Brinquedo não encontrado: "${brinquedo_nome}"`);
+      console.error(`[InventarioService] Brinquedo não encontrado:`, {
+        original: brinquedo_nome,
+        normalizado: nomeNormalizado,
+      });
+      throw new Error(
+        `Brinquedo não encontrado: "${brinquedo_nome}" (normalizado: "${nomeNormalizado}")`
+      );
     }
+
+    console.log(`[InventarioService] Brinquedo encontrado: ${brinquedos[0].nome}`);
 
     // Verificar duplicatas
     if (brinquedos.length > 1) {

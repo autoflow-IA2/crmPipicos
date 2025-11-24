@@ -3,10 +3,13 @@ import toast from 'react-hot-toast';
 import { Button, Input } from '../common';
 import { useBrinquedosByCategoria, useCreateAgendamento, useUpdateAgendamento } from '../../hooks';
 import type { Brinquedo } from '../../types';
+import { inventarioService } from '../../services';
+import type { DisponibilidadeResponse } from '../../types/inventario.types';
 
 interface BrinquedoSelecionado {
   brinquedo: Brinquedo;
   quantidade: number;
+  disponibilidade?: DisponibilidadeResponse;
 }
 
 interface AgendamentoFormProps {
@@ -110,7 +113,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
 
   const valorRestante = valorTotal - Number(valorSinal || 0);
 
-  const adicionarBrinquedo = () => {
+  const adicionarBrinquedo = async () => {
     if (!brinquedoAtual) {
       toast.error('Selecione um brinquedo');
       setErros({ ...erros, brinquedo: 'Selecione um brinquedo' });
@@ -134,11 +137,49 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       return;
     }
 
-    // Verificar estoque
+    // Verificar estoque total
     if (quantidadeAtual > brinquedoEncontrado.quantidade_estoque) {
-      toast.error(`Estoque disponível: ${brinquedoEncontrado.quantidade_estoque}`);
-      setErros({ ...erros, quantidade: `Estoque disponível: ${brinquedoEncontrado.quantidade_estoque}` });
+      toast.error(`Estoque total: ${brinquedoEncontrado.quantidade_estoque}`);
+      setErros({ ...erros, quantidade: `Estoque total: ${brinquedoEncontrado.quantidade_estoque}` });
       return;
+    }
+
+    // Verificar disponibilidade em tempo real (se data e hora estiverem preenchidos)
+    let disponibilidade: DisponibilidadeResponse | undefined;
+    if (dataEvento && horaInicio && horaFim) {
+      try {
+        disponibilidade = await inventarioService.verificarDisponibilidade({
+          brinquedo_id: brinquedoEncontrado.id,
+          data_evento: dataEvento,
+          hora_inicio: horaInicio,
+          hora_fim: horaFim,
+          quantidade_desejada: quantidadeAtual,
+          excludeAgendamentoId: mode === 'edit' && initialData?.id ? initialData.id : undefined,
+        });
+
+        if (!disponibilidade.disponivel) {
+          toast.error(
+            `Apenas ${disponibilidade.quantidade_disponivel} de ${disponibilidade.quantidade_total} disponíveis para esta data/horário`,
+            { duration: 5000 }
+          );
+          setErros({
+            ...erros,
+            quantidade: `Disponível: ${disponibilidade.quantidade_disponivel} unidades`
+          });
+          return;
+        }
+
+        // Mostrar aviso se há pouco estoque disponível
+        if (disponibilidade.quantidade_disponivel <= 2) {
+          toast('⚠️ Atenção: Estoque limitado para esta data!', {
+            icon: '⚠️',
+            duration: 3000
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao verificar disponibilidade:', error);
+        toast.error('Não foi possível verificar disponibilidade. Verifique data e horário.');
+      }
     }
 
     setBrinquedosSelecionados([
@@ -146,6 +187,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
       {
         brinquedo: brinquedoEncontrado,
         quantidade: quantidadeAtual,
+        disponibilidade,
       },
     ]);
 
@@ -155,7 +197,11 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
     setCategoriaAtual('');
     setErros({});
 
-    toast.success(`${brinquedoEncontrado.nome} adicionado!`);
+    const mensagem = disponibilidade
+      ? `${brinquedoEncontrado.nome} adicionado! (${disponibilidade.quantidade_disponivel - quantidadeAtual} restantes)`
+      : `${brinquedoEncontrado.nome} adicionado!`;
+
+    toast.success(mensagem);
   };
 
   const removerBrinquedo = (brinquedoId: string) => {

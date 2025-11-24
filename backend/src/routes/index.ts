@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import agendamentosRoutes from './agendamentos.routes';
+import inventarioRoutes from './inventario.routes';
 
 const router = Router();
 
@@ -19,5 +20,8 @@ router.get('/health', (_req, res) => {
 
 // Rotas de agendamentos
 router.use('/agendamentos', agendamentosRoutes);
+
+// Rotas de inventário
+router.use('/inventario', inventarioRoutes);
 
 export default router;

@@ -257,6 +257,149 @@ const ApiDocs: React.FC = () => {
           apiKey={apiKey}
           baseUrl={baseUrl}
         />
+
+        {/* Seção de Inventário */}
+        <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-6 my-8 border-l-4 border-orange-500">
+          <h2 className="text-2xl font-bold text-black mb-2">📦 Inventário e Disponibilidade</h2>
+          <p className="text-black font-bold">
+            Endpoints para gerenciar disponibilidade de brinquedos em tempo real, verificar conflitos e liberar estoque automaticamente.
+          </p>
+        </div>
+
+        {/* Verificar Disponibilidade de Um Item */}
+        <EndpointCard
+          method="POST"
+          endpoint="/api/inventario/verificar-disponibilidade"
+          title="Verificar Disponibilidade de um Brinquedo"
+          description="Verifica disponibilidade de um brinquedo específico para uma data/horário, considerando reservas existentes. Retorna quantidade disponível e conflitos."
+          apiKey={apiKey}
+          baseUrl={baseUrl}
+          body={{
+            brinquedo_id: "uuid-do-brinquedo",
+            data_evento: "2025-12-25",
+            hora_inicio: "14:00",
+            hora_fim: "18:00",
+            quantidade_desejada: 2,
+            excludeAgendamentoId: "uuid-opcional-para-edicao"
+          }}
+          response={{
+            brinquedo_id: "uuid-do-brinquedo",
+            nome: "Pula-Pula Grande",
+            quantidade_total: 5,
+            quantidade_reservada: 2,
+            quantidade_disponivel: 3,
+            disponivel: true,
+            conflitos: [
+              {
+                agendamento_id: "uuid-agendamento",
+                cliente_nome: "João Silva",
+                quantidade_reservada: 2,
+                data_evento: "2025-12-25",
+                hora_inicio: "15:00",
+                hora_fim: "17:00",
+                status: "confirmado"
+              }
+            ]
+          }}
+        />
+
+        {/* Verificar Múltiplos Itens */}
+        <EndpointCard
+          method="POST"
+          endpoint="/api/inventario/verificar-multiplos"
+          title="Verificar Disponibilidade de Múltiplos Brinquedos"
+          description="Verifica disponibilidade de vários brinquedos de uma só vez. Útil para validar um agendamento completo antes de criar."
+          apiKey={apiKey}
+          baseUrl={baseUrl}
+          body={{
+            items: [
+              { brinquedo_id: "uuid-brinquedo-1", quantidade_desejada: 1 },
+              { brinquedo_id: "uuid-brinquedo-2", quantidade_desejada: 2 }
+            ],
+            data_evento: "2025-12-25",
+            hora_inicio: "14:00",
+            hora_fim: "18:00",
+            excludeAgendamentoId: "uuid-opcional"
+          }}
+          response={{
+            todos_disponiveis: true,
+            items: [
+              {
+                brinquedo_id: "uuid-brinquedo-1",
+                nome: "Pula-Pula",
+                quantidade_total: 3,
+                quantidade_reservada: 0,
+                quantidade_disponivel: 3,
+                disponivel: true,
+                conflitos: []
+              },
+              {
+                brinquedo_id: "uuid-brinquedo-2",
+                nome: "Tobogã Inflável",
+                quantidade_total: 2,
+                quantidade_reservada: 0,
+                quantidade_disponivel: 2,
+                disponivel: true,
+                conflitos: []
+              }
+            ]
+          }}
+        />
+
+        {/* Disponibilidade por Período */}
+        <EndpointCard
+          method="GET"
+          endpoint="/api/inventario/disponibilidade-periodo"
+          title="Consultar Disponibilidade por Período"
+          description="Retorna disponibilidade de todos os brinquedos em um período específico. Ideal para visualização em calendário e dashboards."
+          apiKey={apiKey}
+          baseUrl={baseUrl}
+          queryParams={[
+            { name: 'data_inicio', description: 'Data inicial do período (YYYY-MM-DD) - obrigatório' },
+            { name: 'data_fim', description: 'Data final do período (YYYY-MM-DD) - obrigatório' },
+            { name: 'brinquedo_id', description: 'Filtrar por brinquedo específico (UUID) - opcional' }
+          ]}
+          example="/api/inventario/disponibilidade-periodo?data_inicio=2025-12-01&data_fim=2025-12-31"
+          response={[
+            {
+              data: "2025-12-25",
+              brinquedo_id: "uuid-brinquedo",
+              nome: "Pula-Pula Grande",
+              quantidade_total: 5,
+              quantidade_reservada: 3,
+              quantidade_disponivel: 2,
+              agendamentos: [
+                {
+                  agendamento_id: "uuid-agendamento",
+                  cliente_nome: "Maria Santos",
+                  quantidade: 2,
+                  hora_inicio: "14:00",
+                  hora_fim: "18:00",
+                  status: "confirmado"
+                }
+              ]
+            }
+          ]}
+        />
+
+        {/* Finalizar Eventos Passados */}
+        <EndpointCard
+          method="POST"
+          endpoint="/api/inventario/finalizar-eventos-passados"
+          title="Finalizar Eventos Passados (Auto-Devolução)"
+          description="Finaliza automaticamente eventos que já passaram há mais de 1 dia, liberando o inventário. Execute via cron job ou manualmente."
+          apiKey={apiKey}
+          baseUrl={baseUrl}
+          response={{
+            message: "Eventos passados finalizados com sucesso",
+            finalizados: 3,
+            ids: [
+              "uuid-agendamento-1",
+              "uuid-agendamento-2",
+              "uuid-agendamento-3"
+            ]
+          }}
+        />
       </div>
 
       {/* Códigos de Erro */}
@@ -333,6 +476,47 @@ const ApiDocs: React.FC = () => {
               <li>Configure URL e headers</li>
               <li>Parse a resposta JSON</li>
             </ol>
+          </div>
+        </div>
+      </div>
+
+      {/* Gerenciamento de Inventário */}
+      <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+        <h2 className="text-2xl font-bold text-black mb-4">📦 Como Funciona o Inventário</h2>
+
+        <div className="space-y-4">
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4">
+            <h3 className="text-lg font-bold text-black mb-2">✅ Reserva Automática</h3>
+            <p className="text-black font-bold">
+              Quando você cria um agendamento, os brinquedos são automaticamente "reservados"
+              enquanto o status estiver como: <code className="bg-white px-2 py-1 rounded">pendente</code>,
+              <code className="bg-white px-2 py-1 rounded mx-1">confirmado</code>,
+              <code className="bg-white px-2 py-1 rounded mx-1">em_preparacao</code> ou
+              <code className="bg-white px-2 py-1 rounded">entregue</code>.
+            </p>
+          </div>
+
+          <div className="bg-green-50 border-l-4 border-green-500 p-4">
+            <h3 className="text-lg font-bold text-black mb-2">🔄 Devolução Automática</h3>
+            <p className="text-black font-bold mb-2">
+              Não é necessário "devolver" manualmente! O sistema calcula disponibilidade em tempo real.
+            </p>
+            <ul className="list-disc list-inside text-black font-bold space-y-1">
+              <li>Eventos com status <code className="bg-white px-1 rounded">finalizado</code> ou <code className="bg-white px-1 rounded">cancelado</code> liberam o inventário automaticamente</li>
+              <li>Use o endpoint <code className="bg-white px-1 rounded">/finalizar-eventos-passados</code> para finalizar eventos antigos</li>
+              <li>Configure um cron job para executar esse endpoint diariamente</li>
+            </ul>
+          </div>
+
+          <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+            <h3 className="text-lg font-bold text-black mb-2">⏰ Automatização com Cron Job</h3>
+            <p className="text-black font-bold mb-2">Exemplo de configuração:</p>
+            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-sm">
+              <p># n8n: Crie um Schedule Trigger (diariamente às 2h)</p>
+              <p># → HTTP Request: POST {baseUrl}/api/inventario/finalizar-eventos-passados</p>
+              <p className="mt-2"># Linux/Mac crontab:</p>
+              <p>0 2 * * * curl -X POST {baseUrl}/api/inventario/finalizar-eventos-passados -H "X-API-Key: sua-chave"</p>
+            </div>
           </div>
         </div>
       </div>

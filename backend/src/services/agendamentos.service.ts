@@ -4,6 +4,7 @@ import type {
   CreateAgendamentoDTO,
   AgendamentoFilters,
 } from '../types/agendamento.types';
+import inventarioService from './inventario.service';
 
 export const agendamentosService = {
   // Listar todos os agendamentos com filtros opcionais
@@ -61,6 +62,33 @@ export const agendamentosService = {
   // Criar agendamento
   async create(agendamento: CreateAgendamentoDTO) {
     const supabase = getSupabase();
+
+    // Validar disponibilidade de brinquedos antes de criar
+    if (agendamento.brinquedos_selecionados && Array.isArray(agendamento.brinquedos_selecionados)) {
+      const items = agendamento.brinquedos_selecionados.map((item: any) => ({
+        brinquedo_id: item.brinquedo_id,
+        quantidade_desejada: item.quantidade,
+      }));
+
+      if (items.length > 0) {
+        const disponibilidade = await inventarioService.verificarDisponibilidadeMultiplos({
+          items,
+          data_evento: agendamento.data_evento,
+          hora_inicio: agendamento.hora_inicio,
+          hora_fim: agendamento.hora_fim,
+        });
+
+        if (!disponibilidade.todos_disponiveis) {
+          const itensIndisponiveis = disponibilidade.items
+            .filter(item => !item.disponivel)
+            .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_id === item.brinquedo_id)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
+            .join(', ');
+
+          throw new Error(`Itens indisponíveis para a data/horário selecionados: ${itensIndisponiveis}`);
+        }
+      }
+    }
+
     const { data, error } = await supabase
       .from('agendamentos')
       .insert(agendamento)
@@ -74,6 +102,51 @@ export const agendamentosService = {
   // Atualizar agendamento
   async update(id: string, updateData: Partial<Agendamento>) {
     const supabase = getSupabase();
+
+    // Validar disponibilidade de brinquedos antes de atualizar
+    // (se estiver alterando data, horário ou brinquedos)
+    if (updateData.brinquedos_selecionados || updateData.data_evento || updateData.hora_inicio || updateData.hora_fim) {
+      // Buscar dados atuais do agendamento
+      const { data: agendamentoAtual } = await supabase
+        .from('agendamentos')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (agendamentoAtual) {
+        const brinquedos = updateData.brinquedos_selecionados || agendamentoAtual.brinquedos_selecionados;
+        const dataEvento = updateData.data_evento || agendamentoAtual.data_evento;
+        const horaInicio = updateData.hora_inicio || agendamentoAtual.hora_inicio;
+        const horaFim = updateData.hora_fim || agendamentoAtual.hora_fim;
+
+        if (brinquedos && Array.isArray(brinquedos)) {
+          const items = brinquedos.map((item: any) => ({
+            brinquedo_id: item.brinquedo_id,
+            quantidade_desejada: item.quantidade,
+          }));
+
+          if (items.length > 0) {
+            const disponibilidade = await inventarioService.verificarDisponibilidadeMultiplos({
+              items,
+              data_evento: dataEvento,
+              hora_inicio: horaInicio,
+              hora_fim: horaFim,
+              excludeAgendamentoId: id, // Excluir o próprio agendamento
+            });
+
+            if (!disponibilidade.todos_disponiveis) {
+              const itensIndisponiveis = disponibilidade.items
+                .filter(item => !item.disponivel)
+                .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_id === item.brinquedo_id)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
+                .join(', ');
+
+              throw new Error(`Itens indisponíveis para a data/horário selecionados: ${itensIndisponiveis}`);
+            }
+          }
+        }
+      }
+    }
+
     const { data, error } = await supabase
       .from('agendamentos')
       .update(updateData)

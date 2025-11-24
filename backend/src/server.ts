@@ -89,6 +89,8 @@ const startServer = async () => {
       console.log('');
       console.log('📚 Endpoints disponíveis:');
       console.log('   GET    /api/health');
+      console.log('');
+      console.log('   📅 Agendamentos:');
       console.log('   GET    /api/agendamentos');
       console.log('   GET    /api/agendamentos/:id');
       console.log('   POST   /api/agendamentos');
@@ -96,6 +98,12 @@ const startServer = async () => {
       console.log('   PATCH  /api/agendamentos/:id/status');
       console.log('   DELETE /api/agendamentos/:id');
       console.log('   POST   /api/agendamentos/verificar-disponibilidade');
+      console.log('');
+      console.log('   📦 Inventário:');
+      console.log('   POST   /api/inventario/verificar-disponibilidade');
+      console.log('   POST   /api/inventario/verificar-multiplos');
+      console.log('   GET    /api/inventario/disponibilidade-periodo');
+      console.log('   POST   /api/inventario/finalizar-eventos-passados');
       console.log('');
       console.log('🔑 Autenticação: X-API-Key header obrigatório');
       console.log('');

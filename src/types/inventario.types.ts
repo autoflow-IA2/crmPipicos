@@ -1,5 +1,5 @@
 export interface DisponibilidadeRequest {
-  brinquedo_id: string;
+  brinquedo_nome: string; // Nome do brinquedo (case-insensitive)
   data_evento: string; // ISO date format
   hora_inicio: string; // HH:mm format
   hora_fim: string; // HH:mm format
@@ -9,7 +9,7 @@ export interface DisponibilidadeRequest {
 
 export interface VerificarMultiplosRequest {
   items: Array<{
-    brinquedo_id: string;
+    brinquedo_nome: string; // Nome do brinquedo (case-insensitive)
     quantidade_desejada: number;
   }>;
   data_evento: string;
@@ -29,8 +29,7 @@ export interface Conflito {
 }
 
 export interface DisponibilidadeResponse {
-  brinquedo_id: string;
-  nome: string;
+  nome: string; // Nome do brinquedo
   quantidade_total: number;
   quantidade_reservada: number;
   quantidade_disponivel: number;
@@ -46,13 +45,12 @@ export interface DisponibilidadeMultiplosResponse {
 export interface DisponibilidadePeriodoRequest {
   data_inicio: string;
   data_fim: string;
-  brinquedo_id?: string; // Opcional, para filtrar por item específico
+  brinquedo_nome?: string; // Opcional, para filtrar por nome do brinquedo
 }
 
 export interface DisponibilidadePeriodoItem {
   data: string;
-  brinquedo_id: string;
-  nome: string;
+  nome: string; // Nome do brinquedo
   quantidade_total: number;
   quantidade_reservada: number;
   quantidade_disponivel: number;

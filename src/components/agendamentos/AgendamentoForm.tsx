@@ -149,7 +149,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
     if (dataEvento && horaInicio && horaFim) {
       try {
         disponibilidade = await inventarioService.verificarDisponibilidade({
-          brinquedo_id: brinquedoEncontrado.id,
+          brinquedo_nome: brinquedoEncontrado.nome,
           data_evento: dataEvento,
           hora_inicio: horaInicio,
           hora_fim: horaFim,
@@ -289,8 +289,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
 
         // Brinquedos
         brinquedos_selecionados: brinquedosSelecionados.map(item => ({
-          id: item.brinquedo.id,
-          nome: item.brinquedo.nome,
+          nome: item.brinquedo.nome, // Nome é agora a chave primária (case-insensitive)
           quantidade: item.quantidade,
           valor: item.brinquedo.valor_locacao,
         })),

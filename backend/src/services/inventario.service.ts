@@ -50,7 +50,7 @@ class InventarioService {
     request: DisponibilidadeRequest
   ): Promise<DisponibilidadeResponse> {
     const {
-      brinquedo_id,
+      brinquedo_nome,
       data_evento,
       hora_inicio,
       hora_fim,
@@ -58,22 +58,35 @@ class InventarioService {
       excludeAgendamentoId,
     } = request;
 
-    // 1. Buscar informações do brinquedo
+    // 1. Buscar informações do brinquedo (case-insensitive com wildcards)
     const supabase = getSupabase();
-    const { data: brinquedo, error: brinquedoError } = await supabase
+    const { data: brinquedos, error: brinquedoError } = await supabase
       .from('brinquedos')
       .select('id, nome, quantidade_estoque, status')
-      .eq('id', brinquedo_id)
-      .single();
+      .ilike('nome', `%${brinquedo_nome}%`);
 
-    if (brinquedoError || !brinquedo) {
-      throw new Error(`Brinquedo não encontrado: ${brinquedo_id}`);
+    if (brinquedoError) {
+      throw new Error(`Erro ao buscar brinquedo: ${brinquedoError.message}`);
     }
+
+    if (!brinquedos || brinquedos.length === 0) {
+      throw new Error(`Brinquedo não encontrado: "${brinquedo_nome}"`);
+    }
+
+    // Verificar duplicatas
+    if (brinquedos.length > 1) {
+      const nomes = brinquedos.map(b => b.nome).join('", "');
+      throw new Error(
+        `Encontrados ${brinquedos.length} brinquedos com nomes similares: "${nomes}". ` +
+        `Por favor, seja mais específico com o nome.`
+      );
+    }
+
+    const brinquedo = brinquedos[0];
 
     // Verifica se o brinquedo está disponível para locação
     if (brinquedo.status !== 'disponivel') {
       return {
-        brinquedo_id,
         nome: brinquedo.nome,
         quantidade_total: brinquedo.quantidade_estoque,
         quantidade_reservada: brinquedo.quantidade_estoque, // Todo estoque bloqueado
@@ -118,13 +131,12 @@ class InventarioService {
         if (horariosConflitam && agendamento.brinquedos_selecionados) {
           // Parsear JSONB e procurar o brinquedo específico
           const brinquedosSelecionados = agendamento.brinquedos_selecionados as Array<{
-            brinquedo_id: string;
+            nome: string;
             quantidade: number;
-            nome?: string;
           }>;
 
           const itemReservado = brinquedosSelecionados.find(
-            (item) => item.brinquedo_id === brinquedo_id
+            (item) => item.nome.toLowerCase() === brinquedo.nome.toLowerCase()
           );
 
           if (itemReservado && itemReservado.quantidade > 0) {
@@ -149,7 +161,6 @@ class InventarioService {
     const disponivel = quantidadeDisponivel >= quantidade_desejada;
 
     return {
-      brinquedo_id,
       nome: brinquedo.nome,
       quantidade_total: brinquedo.quantidade_estoque,
       quantidade_reservada: quantidadeReservada,
@@ -172,7 +183,7 @@ class InventarioService {
     // Verificar cada item
     for (const item of items) {
       const resultado = await this.verificarDisponibilidade({
-        brinquedo_id: item.brinquedo_id,
+        brinquedo_nome: item.brinquedo_nome,
         quantidade_desejada: item.quantidade_desejada,
         data_evento,
         hora_inicio,
@@ -198,7 +209,7 @@ class InventarioService {
   async calcularDisponibilidadePeriodo(
     request: DisponibilidadePeriodoRequest
   ): Promise<DisponibilidadePeriodoItem[]> {
-    const { data_inicio, data_fim, brinquedo_id } = request;
+    const { data_inicio, data_fim, brinquedo_nome } = request;
 
     // Buscar todos os agendamentos no período
     const supabase = getSupabase();
@@ -219,8 +230,8 @@ class InventarioService {
     // Buscar brinquedos
     let brinquedosQuery = supabase.from('brinquedos').select('id, nome, quantidade_estoque, status');
 
-    if (brinquedo_id) {
-      brinquedosQuery = brinquedosQuery.eq('id', brinquedo_id);
+    if (brinquedo_nome) {
+      brinquedosQuery = brinquedosQuery.ilike('nome', `%${brinquedo_nome}%`);
     }
 
     const { data: brinquedos, error: brinquedosError } = await brinquedosQuery;
@@ -254,11 +265,13 @@ class InventarioService {
         for (const agendamento of agendamentosData) {
           if (agendamento.brinquedos_selecionados) {
             const brinquedosSelecionados = agendamento.brinquedos_selecionados as Array<{
-              brinquedo_id: string;
+              nome: string;
               quantidade: number;
             }>;
 
-            const itemReservado = brinquedosSelecionados.find((i) => i.brinquedo_id === brinquedo.id);
+            const itemReservado = brinquedosSelecionados.find(
+              (i) => i.nome.toLowerCase() === brinquedo.nome.toLowerCase()
+            );
 
             if (itemReservado && itemReservado.quantidade > 0) {
               quantidadeReservada += itemReservado.quantidade;
@@ -276,10 +289,9 @@ class InventarioService {
         }
 
         // Só adicionar se houver alguma reserva ou se filtrou por brinquedo específico
-        if (quantidadeReservada > 0 || brinquedo_id) {
+        if (quantidadeReservada > 0 || brinquedo_nome) {
           resultado.push({
             data,
-            brinquedo_id: brinquedo.id,
             nome: brinquedo.nome,
             quantidade_total: brinquedo.quantidade_estoque,
             quantidade_reservada: quantidadeReservada,

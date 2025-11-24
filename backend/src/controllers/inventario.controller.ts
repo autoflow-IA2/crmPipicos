@@ -8,7 +8,7 @@ import inventarioService from '../services/inventario.service';
 
 // Schemas de validação com Zod
 const verificarDisponibilidadeSchema = z.object({
-  brinquedo_id: z.string().uuid('ID do brinquedo deve ser um UUID válido'),
+  brinquedo_nome: z.string().min(1, 'Nome do brinquedo é obrigatório').max(255, 'Nome muito longo'),
   data_evento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data deve estar no formato YYYY-MM-DD'),
   hora_inicio: z.string().regex(/^\d{2}:\d{2}$/, 'Hora de início deve estar no formato HH:mm'),
   hora_fim: z.string().regex(/^\d{2}:\d{2}$/, 'Hora de fim deve estar no formato HH:mm'),
@@ -20,7 +20,7 @@ const verificarMultiplosSchema = z.object({
   items: z
     .array(
       z.object({
-        brinquedo_id: z.string().uuid('ID do brinquedo deve ser um UUID válido'),
+        brinquedo_nome: z.string().min(1, 'Nome do brinquedo é obrigatório').max(255, 'Nome muito longo'),
         quantidade_desejada: z.number().int().positive('Quantidade deve ser um número positivo'),
       })
     )
@@ -34,7 +34,7 @@ const verificarMultiplosSchema = z.object({
 const disponibilidadePeriodoSchema = z.object({
   data_inicio: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de início deve estar no formato YYYY-MM-DD'),
   data_fim: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de fim deve estar no formato YYYY-MM-DD'),
-  brinquedo_id: z.string().uuid().optional(),
+  brinquedo_nome: z.string().min(1).max(255).optional(),
 });
 
 export const verificarDisponibilidade = async (req: Request, res: Response) => {
@@ -127,7 +127,7 @@ export const obterDisponibilidadePeriodo = async (req: Request, res: Response) =
     const validatedData = disponibilidadePeriodoSchema.parse({
       data_inicio: req.query.data_inicio,
       data_fim: req.query.data_fim,
-      brinquedo_id: req.query.brinquedo_id,
+      brinquedo_nome: req.query.brinquedo_nome,
     });
 
     // Validação adicional: data_fim deve ser >= data_inicio

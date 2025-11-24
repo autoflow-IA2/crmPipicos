@@ -66,7 +66,7 @@ export const agendamentosService = {
     // Validar disponibilidade de brinquedos antes de criar
     if (agendamento.brinquedos_selecionados && Array.isArray(agendamento.brinquedos_selecionados)) {
       const items = agendamento.brinquedos_selecionados.map((item: any) => ({
-        brinquedo_id: item.brinquedo_id,
+        brinquedo_nome: item.nome,
         quantidade_desejada: item.quantidade,
       }));
 
@@ -81,7 +81,7 @@ export const agendamentosService = {
         if (!disponibilidade.todos_disponiveis) {
           const itensIndisponiveis = disponibilidade.items
             .filter(item => !item.disponivel)
-            .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_id === item.brinquedo_id)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
+            .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_nome === item.nome)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
             .join(', ');
 
           throw new Error(`Itens indisponíveis para a data/horário selecionados: ${itensIndisponiveis}`);
@@ -121,7 +121,7 @@ export const agendamentosService = {
 
         if (brinquedos && Array.isArray(brinquedos)) {
           const items = brinquedos.map((item: any) => ({
-            brinquedo_id: item.brinquedo_id,
+            brinquedo_nome: item.nome,
             quantidade_desejada: item.quantidade,
           }));
 
@@ -137,7 +137,7 @@ export const agendamentosService = {
             if (!disponibilidade.todos_disponiveis) {
               const itensIndisponiveis = disponibilidade.items
                 .filter(item => !item.disponivel)
-                .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_id === item.brinquedo_id)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
+                .map(item => `${item.nome} (solicitado: ${items.find(i => i.brinquedo_nome === item.nome)?.quantidade_desejada}, disponível: ${item.quantidade_disponivel})`)
                 .join(', ');
 
               throw new Error(`Itens indisponíveis para a data/horário selecionados: ${itensIndisponiveis}`);

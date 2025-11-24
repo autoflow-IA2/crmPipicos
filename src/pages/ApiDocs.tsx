@@ -271,29 +271,28 @@ const ApiDocs: React.FC = () => {
           method="POST"
           endpoint="/api/inventario/verificar-disponibilidade"
           title="Verificar Disponibilidade de um Brinquedo"
-          description="Verifica disponibilidade de um brinquedo específico para uma data/horário, considerando reservas existentes. Retorna quantidade disponível e conflitos."
+          description="Verifica disponibilidade de um brinquedo pelo NOME (case-insensitive). Considera reservas existentes e retorna quantidade disponível e conflitos. Se houver múltiplos brinquedos com nomes similares, retorna erro."
           apiKey={apiKey}
           baseUrl={baseUrl}
           body={{
-            brinquedo_id: "uuid-do-brinquedo",
+            brinquedo_nome: "TOTÓ MADEIRA",
             data_evento: "2025-12-25",
             hora_inicio: "14:00",
             hora_fim: "18:00",
-            quantidade_desejada: 2,
+            quantidade_desejada: 1,
             excludeAgendamentoId: "uuid-opcional-para-edicao"
           }}
           response={{
-            brinquedo_id: "uuid-do-brinquedo",
-            nome: "Pula-Pula Grande",
-            quantidade_total: 5,
-            quantidade_reservada: 2,
-            quantidade_disponivel: 3,
+            nome: "TOTÓ MADEIRA",
+            quantidade_total: 2,
+            quantidade_reservada: 1,
+            quantidade_disponivel: 1,
             disponivel: true,
             conflitos: [
               {
                 agendamento_id: "uuid-agendamento",
                 cliente_nome: "João Silva",
-                quantidade_reservada: 2,
+                quantidade_reservada: 1,
                 data_evento: "2025-12-25",
                 hora_inicio: "15:00",
                 hora_fim: "17:00",
@@ -308,13 +307,13 @@ const ApiDocs: React.FC = () => {
           method="POST"
           endpoint="/api/inventario/verificar-multiplos"
           title="Verificar Disponibilidade de Múltiplos Brinquedos"
-          description="Verifica disponibilidade de vários brinquedos de uma só vez. Útil para validar um agendamento completo antes de criar."
+          description="Verifica disponibilidade de vários brinquedos de uma só vez usando NOMES (case-insensitive). Útil para validar um agendamento completo antes de criar."
           apiKey={apiKey}
           baseUrl={baseUrl}
           body={{
             items: [
-              { brinquedo_id: "uuid-brinquedo-1", quantidade_desejada: 1 },
-              { brinquedo_id: "uuid-brinquedo-2", quantidade_desejada: 2 }
+              { brinquedo_nome: "TOTÓ MADEIRA", quantidade_desejada: 1 },
+              { brinquedo_nome: "PULA-PULA GRANDE", quantidade_desejada: 2 }
             ],
             data_evento: "2025-12-25",
             hora_inicio: "14:00",
@@ -325,8 +324,7 @@ const ApiDocs: React.FC = () => {
             todos_disponiveis: true,
             items: [
               {
-                brinquedo_id: "uuid-brinquedo-1",
-                nome: "Pula-Pula",
+                nome: "TOTÓ MADEIRA",
                 quantidade_total: 3,
                 quantidade_reservada: 0,
                 quantidade_disponivel: 3,
@@ -334,8 +332,7 @@ const ApiDocs: React.FC = () => {
                 conflitos: []
               },
               {
-                brinquedo_id: "uuid-brinquedo-2",
-                nome: "Tobogã Inflável",
+                nome: "PULA-PULA GRANDE",
                 quantidade_total: 2,
                 quantidade_reservada: 0,
                 quantidade_disponivel: 2,
@@ -351,28 +348,27 @@ const ApiDocs: React.FC = () => {
           method="GET"
           endpoint="/api/inventario/disponibilidade-periodo"
           title="Consultar Disponibilidade por Período"
-          description="Retorna disponibilidade de todos os brinquedos em um período específico. Ideal para visualização em calendário e dashboards."
+          description="Retorna disponibilidade de todos os brinquedos em um período específico. Pode filtrar por NOME do brinquedo (case-insensitive). Ideal para visualização em calendário e dashboards."
           apiKey={apiKey}
           baseUrl={baseUrl}
           queryParams={[
             { name: 'data_inicio', description: 'Data inicial do período (YYYY-MM-DD) - obrigatório' },
             { name: 'data_fim', description: 'Data final do período (YYYY-MM-DD) - obrigatório' },
-            { name: 'brinquedo_id', description: 'Filtrar por brinquedo específico (UUID) - opcional' }
+            { name: 'brinquedo_nome', description: 'Filtrar por nome do brinquedo (case-insensitive) - opcional' }
           ]}
-          example="/api/inventario/disponibilidade-periodo?data_inicio=2025-12-01&data_fim=2025-12-31"
+          example="/api/inventario/disponibilidade-periodo?data_inicio=2025-12-01&data_fim=2025-12-31&brinquedo_nome=TOTÓ MADEIRA"
           response={[
             {
               data: "2025-12-25",
-              brinquedo_id: "uuid-brinquedo",
-              nome: "Pula-Pula Grande",
-              quantidade_total: 5,
-              quantidade_reservada: 3,
-              quantidade_disponivel: 2,
+              nome: "TOTÓ MADEIRA",
+              quantidade_total: 2,
+              quantidade_reservada: 1,
+              quantidade_disponivel: 1,
               agendamentos: [
                 {
                   agendamento_id: "uuid-agendamento",
                   cliente_nome: "Maria Santos",
-                  quantidade: 2,
+                  quantidade: 1,
                   hora_inicio: "14:00",
                   hora_fim: "18:00",
                   status: "confirmado"

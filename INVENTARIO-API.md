@@ -4,6 +4,8 @@
 
 Sistema completo de gerenciamento de disponibilidade de inventário que verifica automaticamente a disponibilidade de brinquedos e itens de decoração em tempo real, considerando reservas existentes.
 
+**⚠️ IMPORTANTE: A API usa NOME do brinquedo (case-insensitive) em vez de UUID para facilitar a integração e uso.**
+
 ## 🎯 Funcionalidades Implementadas
 
 ### ✅ Backend (Express + TypeScript)
@@ -77,24 +79,31 @@ const response = await fetch('http://localhost:3001/api/inventario/verificar-dis
     'X-API-Key': 'sua-api-key'
   },
   body: JSON.stringify({
-    brinquedo_id: 'uuid-do-brinquedo',
+    brinquedo_nome: 'TOTÓ MADEIRA',  // Case-insensitive: "toto madeira" também funciona
     data_evento: '2025-12-25',
     hora_inicio: '14:00',
     hora_fim: '18:00',
-    quantidade_desejada: 2
+    quantidade_desejada: 1
   })
 });
 
 const resultado = await response.json();
 // {
-//   brinquedo_id: '...',
-//   nome: 'Pula-Pula Grande',
-//   quantidade_total: 5,
-//   quantidade_reservada: 2,
-//   quantidade_disponivel: 3,
+//   nome: 'TOTÓ MADEIRA',
+//   quantidade_total: 2,
+//   quantidade_reservada: 1,
+//   quantidade_disponivel: 1,
 //   disponivel: true,
 //   conflitos: [...]
 // }
+```
+
+**⚠️ Tratamento de Duplicatas:**
+Se houver múltiplos brinquedos com nomes similares, a API retorna erro:
+```json
+{
+  "error": "Encontrados 2 brinquedos com nomes similares: \"TOTÓ MADEIRA\", \"TOTÓ MADEIRA PEQUENO\". Por favor, seja mais específico com o nome."
+}
 ```
 
 ### Verificar Múltiplos Itens
@@ -108,8 +117,8 @@ const response = await fetch('http://localhost:3001/api/inventario/verificar-mul
   },
   body: JSON.stringify({
     items: [
-      { brinquedo_id: 'uuid-1', quantidade_desejada: 1 },
-      { brinquedo_id: 'uuid-2', quantidade_desejada: 2 }
+      { brinquedo_nome: 'TOTÓ MADEIRA', quantidade_desejada: 1 },
+      { brinquedo_nome: 'PULA-PULA GRANDE', quantidade_desejada: 2 }
     ],
     data_evento: '2025-12-25',
     hora_inicio: '14:00',
@@ -120,13 +129,17 @@ const response = await fetch('http://localhost:3001/api/inventario/verificar-mul
 const resultado = await response.json();
 // {
 //   todos_disponiveis: true,
-//   items: [...]
+//   items: [
+//     { nome: 'TOTÓ MADEIRA', quantidade_disponivel: 2, disponivel: true, ... },
+//     { nome: 'PULA-PULA GRANDE', quantidade_disponivel: 3, disponivel: true, ... }
+//   ]
 // }
 ```
 
 ### Disponibilidade por Período
 
 ```javascript
+// Buscar todos os brinquedos no período
 const response = await fetch(
   'http://localhost:3001/api/inventario/disponibilidade-periodo?data_inicio=2025-12-01&data_fim=2025-12-31',
   {
@@ -134,8 +147,26 @@ const response = await fetch(
   }
 );
 
+// OU filtrar por nome específico (case-insensitive)
+const response2 = await fetch(
+  'http://localhost:3001/api/inventario/disponibilidade-periodo?data_inicio=2025-12-01&data_fim=2025-12-31&brinquedo_nome=TOTÓ MADEIRA',
+  {
+    headers: { 'X-API-Key': 'sua-api-key' }
+  }
+);
+
 const resultado = await response.json();
 // Array com disponibilidade de cada item por dia
+// [
+//   {
+//     data: "2025-12-25",
+//     nome: "TOTÓ MADEIRA",
+//     quantidade_total: 2,
+//     quantidade_reservada: 1,
+//     quantidade_disponivel: 1,
+//     agendamentos: [...]
+//   }
+// ]
 ```
 
 ## 🚀 Como Usar
@@ -169,7 +200,7 @@ import { inventarioService } from './services';
 
 // Verificar disponibilidade ao adicionar item
 const disponibilidade = await inventarioService.verificarDisponibilidade({
-  brinquedo_id: item.id,
+  brinquedo_nome: 'TOTÓ MADEIRA',  // Case-insensitive
   data_evento: '2025-12-25',
   hora_inicio: '14:00',
   hora_fim: '18:00',

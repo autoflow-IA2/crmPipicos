@@ -32,14 +32,14 @@ async function testarAPI() {
 
     console.log(`✅ Encontrados ${brinquedos.length} brinquedos`);
     const primeiroBrinquedo = brinquedos[0];
-    console.log(`   Usando: ${primeiroBrinquedo.nome} (ID: ${primeiroBrinquedo.id})`);
+    console.log(`   Usando: ${primeiroBrinquedo.nome}`);
     console.log(`   Estoque: ${primeiroBrinquedo.quantidade_estoque} unidades`);
     console.log('');
 
     // Teste 3: Verificar disponibilidade de um brinquedo
     console.log('3️⃣ Verificando disponibilidade para 2025-12-25...');
     const disponibilidadeRequest = {
-      brinquedo_id: primeiroBrinquedo.id,
+      brinquedo_nome: primeiroBrinquedo.nome,
       data_evento: '2025-12-25',
       hora_inicio: '14:00',
       hora_fim: '18:00',
@@ -84,8 +84,8 @@ async function testarAPI() {
       console.log('4️⃣ Verificando disponibilidade de múltiplos itens...');
       const multiplosRequest = {
         items: [
-          { brinquedo_id: brinquedos[0].id, quantidade_desejada: 1 },
-          { brinquedo_id: brinquedos[1].id, quantidade_desejada: 1 }
+          { brinquedo_nome: brinquedos[0].nome, quantidade_desejada: 1 },
+          { brinquedo_nome: brinquedos[1].nome, quantidade_desejada: 1 }
         ],
         data_evento: '2025-12-25',
         hora_inicio: '14:00',

@@ -39,6 +39,7 @@ export interface Agendamento {
   cliente_bairro?: string;
   cliente_cidade?: string;
   cliente_cep?: string;
+  endereco_completo?: string;
 
   // Dados do Evento
   tipo_servico: TipoServico;
@@ -89,6 +90,7 @@ export interface CreateAgendamentoDTO {
   cliente_bairro?: string;
   cliente_cidade?: string;
   cliente_cep?: string;
+  endereco_completo?: string;
 
   // Dados do Evento (obrigatórios)
   tipo_servico: TipoServico;

@@ -37,6 +37,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
   const [clienteBairro, setClienteBairro] = useState('');
   const [clienteCidade, setClienteCidade] = useState('');
   const [clienteCep, setClienteCep] = useState('');
+  const [enderecoCompleto, setEnderecoCompleto] = useState('');
 
   // Dados do Evento
   const [tipoServico, setTipoServico] = useState<'brinquedos' | 'recreacao' | 'decoracao' | 'completo'>('brinquedos');
@@ -75,6 +76,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
         setClienteBairro(initialData.cliente_bairro || '');
         setClienteCidade(initialData.cliente_cidade || '');
         setClienteCep(initialData.cliente_cep || '');
+        setEnderecoCompleto(initialData.endereco_completo || '');
 
         setTipoServico(initialData.tipo_servico || 'brinquedos');
         setTipoEvento(initialData.tipo_evento || '');
@@ -279,6 +281,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
         cliente_bairro: clienteBairro || undefined,
         cliente_cidade: clienteCidade || undefined,
         cliente_cep: clienteCep || undefined,
+        endereco_completo: enderecoCompleto || undefined,
 
         // Dados do evento
         tipo_servico: tipoServico,
@@ -453,6 +456,22 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
                 onChange={(e) => setClienteCidade(e.target.value)}
                 placeholder="Cidade"
               />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm font-bold text-black mb-1">
+                Endereço Completo do Evento (opcional)
+              </label>
+              <textarea
+                value={enderecoCompleto}
+                onChange={(e) => setEnderecoCompleto(e.target.value)}
+                placeholder="Ex: Salão de Festas Prime, Rua das Palmeiras 456, 3º andar, Jardim Paulista - São Paulo/SP"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                rows={3}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Endereço completo onde será realizado o evento
+              </p>
             </div>
           </div>
         </div>

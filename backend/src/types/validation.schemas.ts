@@ -14,6 +14,7 @@ export const createAgendamentoSchema = z.object({
   cliente_bairro: z.string().optional(),
   cliente_cidade: z.string().optional(),
   cliente_cep: z.string().optional(),
+  endereco_completo: z.string().optional(),
 
   // Dados do Evento (obrigatórios)
   tipo_servico: z.enum(['brinquedos', 'recreacao', 'decoracao', 'completo']),

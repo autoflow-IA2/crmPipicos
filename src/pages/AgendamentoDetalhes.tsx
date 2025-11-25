@@ -207,6 +207,12 @@ const AgendamentoDetalhes: React.FC = () => {
                 </p>
               </div>
             )}
+            {agendamento.endereco_completo && (
+              <div>
+                <label className="text-sm font-bold text-black">Endereço do Evento:</label>
+                <p className="text-gray-800">{agendamento.endereco_completo}</p>
+              </div>
+            )}
           </div>
         </div>
 

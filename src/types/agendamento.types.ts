@@ -54,6 +54,7 @@ export interface Agendamento {
   recreadores_quantidade?: number;
   itens_decoracao?: ItemDecoracaoSelecionado[];
   tema_decoracao?: string;
+  brinquedo_principal?: string;
 
   // Financeiro
   valor_total?: number;
@@ -103,6 +104,7 @@ export interface CreateAgendamentoDTO {
   recreadores_quantidade?: number;
   itens_decoracao?: ItemDecoracaoSelecionado[];
   tema_decoracao?: string;
+  brinquedo_principal?: string;
 
   // Financeiro
   valor_total?: number;

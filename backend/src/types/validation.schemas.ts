@@ -39,6 +39,7 @@ export const createAgendamentoSchema = z.object({
     valor: z.number().nonnegative(),
   })).optional(),
   tema_decoracao: z.string().optional(),
+  brinquedo_principal: z.string().max(255, 'Nome deve ter no máximo 255 caracteres').optional().or(z.literal('')),
 
   // Financeiro
   valor_total: z.number().nonnegative().optional(),

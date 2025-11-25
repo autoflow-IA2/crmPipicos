@@ -48,6 +48,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
   const [faixaEtaria, setFaixaEtaria] = useState('');
 
   // Brinquedos
+  const [brinquedoPrincipal, setBrinquedoPrincipal] = useState('');
   const [brinquedosSelecionados, setBrinquedosSelecionados] = useState<BrinquedoSelecionado[]>([]);
   const [categoriaAtual, setCategoriaAtual] = useState('');
   const [brinquedoAtual, setBrinquedoAtual] = useState('');
@@ -83,6 +84,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
         setFormaPagamento(initialData.forma_pagamento || '');
         setValorSinal(initialData.valor_sinal?.toString() || '');
         setObservacoes(initialData.observacoes || '');
+        setBrinquedoPrincipal(initialData.brinquedo_principal || '');
 
         // Carregar brinquedos selecionados
         if (initialData.brinquedos_selecionados && initialData.brinquedos_selecionados.length > 0) {
@@ -293,6 +295,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
           quantidade: item.quantidade,
           valor: item.brinquedo.valor_locacao,
         })),
+        brinquedo_principal: brinquedoPrincipal || undefined,
 
         // Financeiro
         valor_total: valorTotal,
@@ -677,6 +680,23 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Campo Brinquedo Principal */}
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Brinquedo/Decoração Principal (opcional)
+            </label>
+            <Input
+              type="text"
+              value={brinquedoPrincipal}
+              onChange={(e) => setBrinquedoPrincipal(e.target.value)}
+              placeholder="Ex: Piscina de Bolinhas"
+              maxLength={255}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Identifique rapidamente o item principal deste agendamento
+            </p>
+          </div>
         </div>
       )}
 

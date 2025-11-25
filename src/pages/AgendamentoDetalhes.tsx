@@ -250,6 +250,12 @@ const AgendamentoDetalhes: React.FC = () => {
                 <p className="text-gray-800 capitalize">{agendamento.faixa_etaria}</p>
               </div>
             )}
+            {agendamento.brinquedo_principal && (
+              <div>
+                <label className="text-sm font-bold text-black">Brinquedo/Decoração Principal:</label>
+                <p className="text-black font-bold">🎯 {agendamento.brinquedo_principal}</p>
+              </div>
+            )}
           </div>
         </div>
 

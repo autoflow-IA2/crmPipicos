@@ -256,12 +256,19 @@ const AgendamentoDetalhes: React.FC = () => {
                 <p className="text-gray-800 capitalize">{agendamento.faixa_etaria}</p>
               </div>
             )}
-            {agendamento.brinquedo_principal && (
-              <div>
-                <label className="text-sm font-bold text-black">Brinquedo/Decoração Principal:</label>
-                <p className="text-black font-bold">🎯 {agendamento.brinquedo_principal}</p>
-              </div>
-            )}
+            {agendamento.brinquedos_selecionados &&
+              agendamento.brinquedos_selecionados.length > 0 && (
+                <div>
+                  <label className="text-sm font-bold text-black">Brinquedo/Decoração Principal:</label>
+                  <div className="mt-1 space-y-1">
+                    {agendamento.brinquedos_selecionados.map((brinquedo, index) => (
+                      <p key={index} className="text-black font-bold">
+                        🎯 {brinquedo.nome} ({brinquedo.quantidade}x): {formatCurrency(brinquedo.valor * brinquedo.quantidade)}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
           </div>
         </div>
 
@@ -274,24 +281,10 @@ const AgendamentoDetalhes: React.FC = () => {
               </h2>
               <div className="space-y-3">
                 {agendamento.brinquedos_selecionados.map((brinquedo, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-gray-50 p-3 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium text-gray-800">{brinquedo.nome}</p>
-                      <p className="text-sm text-gray-600">
-                        Quantidade: {brinquedo.quantidade}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium text-gray-800">
-                        {formatCurrency(brinquedo.valor * brinquedo.quantidade)}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        {formatCurrency(brinquedo.valor)} cada
-                      </p>
-                    </div>
+                  <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                    <p className="font-medium text-gray-800">
+                      {brinquedo.nome} ({brinquedo.quantidade}x): {formatCurrency(brinquedo.valor * brinquedo.quantidade)}
+                    </p>
                   </div>
                 ))}
               </div>

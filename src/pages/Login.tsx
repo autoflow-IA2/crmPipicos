@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/common';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+
+  // Se já estiver autenticado, redireciona
+  useEffect(() => {
+    if (user) {
+      const from = (location.state as any)?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
-    // Simulação de login (substituir com lógica real de autenticação)
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { error } = await signIn(email, password);
 
-      // Aqui você implementaria a lógica real de autenticação
-      // Por enquanto, simula um login bem-sucedido
-      if (email && password) {
-        navigate('/');
-      } else {
-        setError('Por favor, preencha todos os campos');
-      }
-    } catch (err) {
-      setError('Erro ao fazer login. Tente novamente.');
-    } finally {
-      setIsLoading(false);
+    setIsLoading(false);
+
+    if (!error) {
+      // Redireciona para a página que tentou acessar ou para o dashboard
+      const from = (location.state as any)?.from?.pathname || '/';
+      navigate(from, { replace: true });
     }
   };
 
@@ -72,16 +74,6 @@ const Login: React.FC = () => {
               <p className="text-gray-600">Entre com suas credenciais para continuar</p>
             </div>
 
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg animate-slideDown">
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-sm font-semibold text-red-800">{error}</p>
-                </div>
-              </div>
-            )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
@@ -157,6 +149,7 @@ const Login: React.FC = () => {
                 </label>
                 <button
                   type="button"
+                  onClick={() => navigate('/esqueci-senha')}
                   className="text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline transition-all"
                 >
                   Esqueci a senha

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { signOut, user } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -145,7 +147,9 @@ const Header: React.FC = () => {
                 U
               </div>
               <div className="hidden md:block text-left">
-                <p className="text-sm font-bold text-gray-900">Usuário</p>
+                <p className="text-sm font-bold text-gray-900">
+                  {user?.email?.split('@')[0] || 'Usuário'}
+                </p>
                 <p className="text-xs text-gray-500">Admin</p>
               </div>
               <svg className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -157,8 +161,10 @@ const Header: React.FC = () => {
             {showUserMenu && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-200 animate-slideDown overflow-hidden">
                 <div className="p-4 border-b border-gray-200 bg-gradient-to-br from-primary-50 to-purple-50">
-                  <p className="font-bold text-gray-900">Usuário Admin</p>
-                  <p className="text-sm text-gray-600">admin@crm.com</p>
+                  <p className="font-bold text-gray-900">
+                    {user?.email?.split('@')[0] || 'Usuário'}
+                  </p>
+                  <p className="text-sm text-gray-600">{user?.email || 'admin@crm.com'}</p>
                 </div>
                 <div className="p-2">
                   <button className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-xl transition-colors text-left">
@@ -177,7 +183,10 @@ const Header: React.FC = () => {
                 </div>
                 <div className="p-2 border-t border-gray-200">
                   <button
-                    onClick={() => navigate('/login')}
+                    onClick={async () => {
+                      await signOut();
+                      navigate('/login');
+                    }}
                     className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-50 rounded-xl transition-colors text-left text-red-600"
                   >
                     <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">

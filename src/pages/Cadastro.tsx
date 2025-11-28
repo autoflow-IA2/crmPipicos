@@ -1,37 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/common';
 
-const Login: React.FC = () => {
+const Cadastro: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { signIn, user } = useAuth();
+  const { signUp, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
   // Se já estiver autenticado, redireciona
   useEffect(() => {
     if (user) {
-      const from = (location.state as any)?.from?.pathname || '/';
-      navigate(from, { replace: true });
+      navigate('/', { replace: true });
     }
-  }, [user, navigate, location]);
+  }, [user, navigate]);
+
+  const validatePassword = (pass: string) => {
+    if (pass.length < 6) {
+      return 'A senha deve ter pelo menos 6 caracteres';
+    }
+    return '';
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordError(validatePassword(newPassword));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    const { error } = await signIn(email, password);
+    // Validações
+    const passError = validatePassword(password);
+    if (passError) {
+      setPasswordError(passError);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordError('As senhas não conferem');
+      return;
+    }
+
+    setIsLoading(true);
+    setPasswordError('');
+
+    const { error } = await signUp(email, password);
 
     setIsLoading(false);
 
     if (!error) {
-      // Redireciona para a página que tentou acessar ou para o dashboard
-      const from = (location.state as any)?.from?.pathname || '/';
-      navigate(from, { replace: true });
+      // Redireciona para o login
+      navigate('/login');
     }
   };
 
@@ -46,7 +73,7 @@ const Login: React.FC = () => {
 
       {/* Container Principal */}
       <div className="w-full max-w-md relative z-10">
-        {/* Card de Login */}
+        {/* Card de Cadastro */}
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-primary-100">
           {/* Header com Logo */}
           <div className="bg-gradient-to-r from-primary-500 via-purple-500 to-yellow-500 p-8 text-center relative overflow-hidden">
@@ -60,7 +87,7 @@ const Login: React.FC = () => {
                 />
               </div>
               <h1 className="text-3xl font-bold text-white mb-2">Pipicos Festas</h1>
-              <p className="text-white/90 font-medium">CRM de Agendamentos</p>
+              <p className="text-white/90 font-medium">Criar Nova Conta</p>
             </div>
             {/* Decoração */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
@@ -70,10 +97,9 @@ const Login: React.FC = () => {
           {/* Formulário */}
           <div className="p-8">
             <div className="mb-6 text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Bem-vindo de volta!</h2>
-              <p className="text-gray-600">Entre com suas credenciais para continuar</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Crie sua conta</h2>
+              <p className="text-gray-600">Preencha os dados abaixo para começar</p>
             </div>
-
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
@@ -112,7 +138,7 @@ const Login: React.FC = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     placeholder="••••••••"
                     className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all hover:border-primary-200"
                     required
@@ -134,29 +160,55 @@ const Login: React.FC = () => {
                     )}
                   </button>
                 </div>
+                <p className="mt-1 text-xs text-gray-500">Mínimo de 6 caracteres</p>
               </div>
 
-              {/* Lembrar-me e Esqueci a senha */}
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 focus:ring-2 cursor-pointer"
-                  />
-                  <span className="text-sm text-gray-700 font-medium group-hover:text-primary-600 transition-colors">
-                    Lembrar-me
-                  </span>
+              {/* Confirmar Senha */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 mb-2">
+                  Confirmar Senha
                 </label>
-                <button
-                  type="button"
-                  onClick={() => navigate('/esqueci-senha')}
-                  className="text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline transition-all"
-                >
-                  Esqueci a senha
-                </button>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all hover:border-primary-200"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-primary-600 transition-colors"
+                  >
+                    {showConfirmPassword ? (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
-              {/* Botão de Login */}
+              {/* Mensagem de erro */}
+              {passwordError && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                  {passwordError}
+                </div>
+              )}
+
+              {/* Botão de Cadastro */}
               <Button
                 type="submit"
                 variant="primary"
@@ -164,7 +216,7 @@ const Login: React.FC = () => {
                 isLoading={isLoading}
                 className="!py-3.5 !text-base !font-bold !rounded-xl !shadow-lg hover:!shadow-pink-glow"
               >
-                {isLoading ? 'Entrando...' : 'Entrar'}
+                {isLoading ? 'Criando conta...' : 'Criar conta'}
               </Button>
             </form>
           </div>
@@ -172,12 +224,12 @@ const Login: React.FC = () => {
           {/* Footer */}
           <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 text-center">
             <p className="text-sm text-gray-600">
-              Não tem uma conta?{' '}
+              Já tem uma conta?{' '}
               <button
-                onClick={() => navigate('/cadastro')}
+                onClick={() => navigate('/login')}
                 className="font-bold text-primary-600 hover:text-primary-700 hover:underline transition-all"
               >
-                Criar conta
+                Fazer login
               </button>
             </p>
           </div>
@@ -194,4 +246,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Cadastro;

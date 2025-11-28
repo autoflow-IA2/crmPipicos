@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { PrivateRoute } from './components/auth';
 import { Layout } from './components/layout';
 import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 import EsqueciSenha from './pages/EsqueciSenha';
 import Dashboard from './pages/Dashboard';
 import Agendamentos from './pages/Agendamentos';
@@ -50,6 +51,7 @@ function App() {
         <Routes>
           {/* Rotas públicas - sem autenticação */}
           <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/esqueci-senha" element={<EsqueciSenha />} />
 
           {/* Rotas protegidas - requerem autenticação */}

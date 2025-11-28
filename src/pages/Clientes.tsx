@@ -60,18 +60,18 @@ const Clientes: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
       {/* Header com Gradiente */}
-      <div className="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl shadow-xl p-8 mb-8">
+      <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl shadow-xl p-8 mb-8">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold text-white mb-2">Gestão de Clientes</h1>
-            <p className="text-purple-100">
+            <p className="text-green-50">
               Gerencie o cadastro de clientes e visualize o histórico
             </p>
           </div>
           <Button
             variant="primary"
             onClick={() => navigate('/clientes/novo')}
-            className="bg-white text-purple-600 hover:bg-purple-50 shadow-lg hover:shadow-xl transition-all duration-200"
+            className="!bg-white !text-primary-600 hover:!bg-pink-50 hover:!text-primary-700 shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-white"
           >
             <span className="flex items-center gap-2 font-semibold">
               <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,13 +86,13 @@ const Clientes: React.FC = () => {
       {/* Cards de Estatísticas */}
       {estatisticas && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-purple-500">
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-lg hover-lift border border-green-200 transition-all p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold text-black mb-1">Total de Clientes</p>
-                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">{estatisticas.total}</p>
+                <p className="text-sm font-bold text-green-700 mb-1">Total de Clientes</p>
+                <p className="text-4xl font-bold text-green-600">{estatisticas.total}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-lg">
+              <div className="p-4 bg-gradient-to-br from-green-400 to-green-500 rounded-xl shadow-md">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -100,13 +100,13 @@ const Clientes: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-green-500">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg hover-lift border border-blue-200 transition-all p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold text-black mb-1">Clientes Ativos</p>
-                <p className="text-4xl font-bold text-green-600">{estatisticas.ativos}</p>
+                <p className="text-sm font-bold text-blue-700 mb-1">Clientes Ativos</p>
+                <p className="text-4xl font-bold text-blue-600">{estatisticas.ativos}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg">
+              <div className="p-4 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl shadow-md">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -114,13 +114,13 @@ const Clientes: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-t-4 border-gray-400">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg hover-lift border border-gray-200 transition-all p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold text-black mb-1">Clientes Inativos</p>
-                <p className="text-4xl font-bold text-gray-700">{estatisticas.inativos}</p>
+                <p className="text-sm font-bold text-gray-700 mb-1">Clientes Inativos</p>
+                <p className="text-4xl font-bold text-gray-600">{estatisticas.inativos}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-gray-400 to-gray-500 rounded-2xl shadow-lg">
+              <div className="p-4 bg-gradient-to-br from-gray-400 to-gray-500 rounded-xl shadow-md">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                 </svg>
@@ -131,9 +131,9 @@ const Clientes: React.FC = () => {
       )}
 
       {/* Filtros */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-purple-100">
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-green-100">
         <h3 className="text-lg font-bold text-black mb-4 flex items-center gap-2">
-          <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
           </svg>
           Filtros
@@ -144,7 +144,7 @@ const Clientes: React.FC = () => {
               Buscar Cliente
             </label>
             <div className="relative">
-              <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
@@ -152,7 +152,7 @@ const Clientes: React.FC = () => {
                 placeholder="Nome, telefone, email ou CPF/CNPJ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-3 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ const Clientes: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white"
+              className="w-full px-4 py-3 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all bg-white"
             >
               <option value="todos">Todos</option>
               <option value="ativos">Ativos</option>
@@ -174,13 +174,13 @@ const Clientes: React.FC = () => {
         </div>
 
         {(searchTerm || statusFilter !== 'ativos') && (
-          <div className="mt-4 flex items-center justify-between pt-4 border-t border-purple-100">
+          <div className="mt-4 flex items-center justify-between pt-4 border-t border-green-100">
             <p className="text-sm font-bold text-black">
-              <span className="text-purple-600 font-bold">{clientesFiltrados.length}</span> cliente(s) encontrado(s)
+              <span className="text-green-600 font-bold">{clientesFiltrados.length}</span> cliente(s) encontrado(s)
             </p>
             <button
               onClick={limparFiltros}
-              className="text-sm text-purple-600 hover:text-purple-700 font-semibold hover:underline transition-all"
+              className="text-sm text-green-600 hover:text-green-700 font-semibold hover:underline transition-all"
             >
               Limpar filtros
             </button>
@@ -189,10 +189,10 @@ const Clientes: React.FC = () => {
       </div>
 
       {/* Tabela de Clientes */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-purple-100">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
         {clientesFiltrados.length === 0 ? (
           <div className="p-12 text-center">
-            <svg className="w-16 h-16 mx-auto text-purple-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-16 h-16 mx-auto text-green-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <h3 className="text-xl font-bold text-black mb-2">
@@ -206,32 +206,32 @@ const Clientes: React.FC = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-purple-200">
-              <thead className="bg-gradient-to-r from-purple-50 to-purple-100">
+            <table className="min-w-full divide-y divide-green-200">
+              <thead className="bg-gradient-to-r from-green-50 to-green-100">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-800 uppercase tracking-wider">
                     Cliente
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-800 uppercase tracking-wider">
                     Contato
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-800 uppercase tracking-wider">
                     Cidade
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-800 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-800 uppercase tracking-wider">
                     Cadastro
                   </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-purple-800 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-right text-xs font-bold text-green-800 uppercase tracking-wider">
                     Ações
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-purple-100">
+              <tbody className="bg-white divide-y divide-green-100">
                 {clientesFiltrados.map((cliente) => (
-                  <tr key={cliente.id} className="hover:bg-purple-50 transition-all duration-200">
+                  <tr key={cliente.id} className="hover:bg-green-50 transition-all duration-200">
                     <td className="px-6 py-4">
                       <div>
                         <div className="text-sm font-bold text-black">{cliente.nome}</div>
@@ -264,7 +264,7 @@ const Clientes: React.FC = () => {
                     <td className="px-6 py-4 text-right text-sm font-medium space-x-2">
                       <button
                         onClick={() => navigate(`/clientes/${cliente.id}`)}
-                        className="text-purple-600 hover:text-purple-800 hover:bg-purple-50 p-2 rounded-lg transition-all"
+                        className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-all"
                         title="Ver detalhes"
                       >
                         <svg className="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,7 +274,7 @@ const Clientes: React.FC = () => {
                       </button>
                       <button
                         onClick={() => navigate(`/clientes/${cliente.id}/editar`)}
-                        className="text-purple-600 hover:text-purple-800 hover:bg-purple-50 p-2 rounded-lg transition-all"
+                        className="text-green-600 hover:text-green-800 hover:bg-green-50 p-2 rounded-lg transition-all"
                         title="Editar"
                       >
                         <svg className="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">

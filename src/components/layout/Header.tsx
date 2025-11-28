@@ -19,9 +19,21 @@ const Header: React.FC = () => {
     <header className="bg-white shadow-md sticky top-0 z-40 animate-slideDown border-b-2 border-transparent bg-gradient-to-r from-transparent via-transparent to-transparent relative">
       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 via-primary-500 to-orange-500"></div>
       <div className="px-6 py-4 flex items-center justify-between">
-        {/* Título e Breadcrumb */}
+        {/* Logo e Título */}
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+          <div className="hidden sm:flex items-center gap-3">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md p-1 border-2 border-primary-200">
+              <img
+                src="https://gjqkkiuqryhhobmcevuo.supabase.co/storage/v1/object/public/pipicos/logo.png"
+                alt="Pipicos Festas"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+              Pipicos Festas
+            </h1>
+          </div>
+          <h1 className="sm:hidden text-2xl font-bold bg-gradient-to-r from-primary-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
             Pipicos Festas
           </h1>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">

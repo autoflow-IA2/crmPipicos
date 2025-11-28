@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost' | 'outline';
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost' | 'outline' | 'fun';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -22,15 +22,16 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 transform';
+  const baseStyles = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 transform hover:-translate-y-0.5';
 
   const variantStyles = {
-    primary: 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white shadow-md hover:shadow-lg focus:ring-primary-500',
-    secondary: 'bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-gray-900 font-bold shadow-sm hover:shadow-md focus:ring-gray-400',
-    danger: 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-md hover:shadow-lg focus:ring-red-500',
-    success: 'bg-green-600 hover:bg-green-700 active:bg-green-800 text-white shadow-md hover:shadow-lg focus:ring-green-500',
-    ghost: 'bg-transparent hover:bg-gray-100 active:bg-gray-200 text-gray-700 focus:ring-gray-300',
-    outline: 'bg-transparent border-2 border-primary-600 hover:bg-primary-50 active:bg-primary-100 text-primary-700 font-semibold focus:ring-primary-500',
+    primary: 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-white shadow-lg hover:shadow-pink-glow focus:ring-primary-500',
+    secondary: 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white shadow-lg hover:shadow-lg focus:ring-blue-400',
+    danger: 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-lg hover:shadow-lg focus:ring-red-500',
+    success: 'bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-lg hover:shadow-lg focus:ring-green-500',
+    ghost: 'bg-transparent hover:bg-gray-100 active:bg-gray-200 text-gray-700 focus:ring-gray-300 shadow-none',
+    outline: 'bg-transparent border-2 border-primary-500 hover:bg-primary-50 active:bg-primary-100 text-primary-600 focus:ring-primary-500 shadow-none hover:shadow-md',
+    fun: 'bg-gradient-party hover:opacity-90 text-white shadow-lg hover:shadow-multi-glow focus:ring-primary-500',
   };
 
   const sizeStyles = {

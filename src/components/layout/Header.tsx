@@ -16,12 +16,13 @@ const Header: React.FC = () => {
   const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-40 animate-slideDown">
+    <header className="bg-white shadow-md sticky top-0 z-40 animate-slideDown border-b-2 border-transparent bg-gradient-to-r from-transparent via-transparent to-transparent relative">
+      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 via-primary-500 to-orange-500"></div>
       <div className="px-6 py-4 flex items-center justify-between">
         {/* Título e Breadcrumb */}
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
-            CRM Agendamentos
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+            Pipicos Festas
           </h1>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -48,7 +49,7 @@ const Header: React.FC = () => {
           {/* Novo agendamento - botão rápido */}
           <button
             onClick={() => navigate('/agendamentos/novo')}
-            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95"
+            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-orange-500 text-white rounded-xl hover:from-primary-600 hover:to-orange-600 transition-all duration-200 shadow-lg hover:shadow-pink-glow transform hover:scale-105 hover:-translate-y-0.5 active:scale-95 animate-float"
           >
             <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M12 4v16m8-8H4"></path>
@@ -75,7 +76,7 @@ const Header: React.FC = () => {
                 <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
               </svg>
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-scaleIn">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-primary-500 to-orange-500 text-white text-xs rounded-full flex items-center justify-center animate-scaleIn animate-pulse shadow-md">
                   {unreadCount}
                 </span>
               )}
@@ -128,7 +129,7 @@ const Header: React.FC = () => {
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center gap-2 hover:bg-gray-100 rounded-xl p-2 transition-all duration-200 transform hover:scale-105"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold shadow-md">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 via-purple-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-semibold shadow-md ring-2 ring-primary-200 hover:ring-primary-300 transition-all hover:rotate-12">
                 U
               </div>
               <div className="hidden md:block text-left">

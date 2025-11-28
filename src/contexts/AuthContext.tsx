@@ -11,6 +11,8 @@ interface AuthContextType {
   signUp: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
+  signInWithGoogle: () => Promise<{ error: AuthError | null }>;
+  signInWithFacebook: () => Promise<{ error: AuthError | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -129,6 +131,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return { error };
+      }
+
+      return { error: null };
+    } catch (error) {
+      const authError = error as AuthError;
+      toast.error('Erro ao fazer login com Google');
+      return { error: authError };
+    }
+  };
+
+  const signInWithFacebook = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'facebook',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return { error };
+      }
+
+      return { error: null };
+    } catch (error) {
+      const authError = error as AuthError;
+      toast.error('Erro ao fazer login com Facebook');
+      return { error: authError };
+    }
+  };
+
   const value = {
     user,
     session,
@@ -137,6 +183,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUp,
     signOut,
     resetPassword,
+    signInWithGoogle,
+    signInWithFacebook,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

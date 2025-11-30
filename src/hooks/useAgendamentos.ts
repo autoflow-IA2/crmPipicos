@@ -17,7 +17,23 @@ export function useAgendamentos(filters?: {
 export function useAgendamento(id: string) {
   return useQuery({
     queryKey: ['agendamentos', id],
-    queryFn: () => agendamentosService.getById(id),
+    queryFn: async () => {
+      const agendamento = await agendamentosService.getById(id);
+
+      // Normalizar: sempre array, nunca null
+      if (!agendamento.brinquedos_selecionados) {
+        agendamento.brinquedos_selecionados = [];
+      }
+
+      // Filtrar itens inválidos (compatibilidade com dados antigos)
+      if (Array.isArray(agendamento.brinquedos_selecionados)) {
+        agendamento.brinquedos_selecionados = agendamento.brinquedos_selecionados.filter(
+          (item: any) => item && item.nome && item.quantidade && item.valor
+        );
+      }
+
+      return agendamento;
+    },
     enabled: !!id,
   });
 }

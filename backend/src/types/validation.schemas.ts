@@ -27,7 +27,6 @@ export const createAgendamentoSchema = z.object({
 
   // Itens Solicitados
   brinquedos_selecionados: z.array(z.object({
-    id: z.string(),
     nome: z.string(),
     quantidade: z.number().int().positive(),
     valor: z.number().nonnegative(),

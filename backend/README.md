@@ -182,7 +182,6 @@ Cria um novo agendamento. Verifica automaticamente conflitos de horário.
 
   "brinquedos_selecionados": [
     {
-      "id": "brinquedo-1",
       "nome": "Pula-pula",
       "quantidade": 1,
       "valor": 200.00

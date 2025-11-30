@@ -257,15 +257,20 @@ const AgendamentoDetalhes: React.FC = () => {
               </div>
             )}
             {agendamento.brinquedos_selecionados &&
+              Array.isArray(agendamento.brinquedos_selecionados) &&
               agendamento.brinquedos_selecionados.length > 0 && (
                 <div>
                   <label className="text-sm font-bold text-black">Brinquedo/Decoração Principal:</label>
                   <div className="mt-1 space-y-1">
-                    {agendamento.brinquedos_selecionados.map((brinquedo, index) => (
-                      <p key={index} className="text-black font-bold">
-                        🎯 {brinquedo.nome} ({brinquedo.quantidade}x): {formatCurrency(brinquedo.valor * brinquedo.quantidade)}
-                      </p>
-                    ))}
+                    {agendamento.brinquedos_selecionados.map((brinquedo, index) => {
+                      if (!brinquedo || !brinquedo.nome) return null;
+
+                      return (
+                        <p key={index} className="text-black font-bold">
+                          🎯 {brinquedo.nome} ({brinquedo.quantidade || 1}x): {formatCurrency((brinquedo.valor || 0) * (brinquedo.quantidade || 1))}
+                        </p>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -274,19 +279,24 @@ const AgendamentoDetalhes: React.FC = () => {
 
         {/* Brinquedos Selecionados */}
         {agendamento.brinquedos_selecionados &&
+          Array.isArray(agendamento.brinquedos_selecionados) &&
           agendamento.brinquedos_selecionados.length > 0 && (
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-bold text-black mb-4 border-b pb-2">
                 🎮 Brinquedos Selecionados
               </h2>
               <div className="space-y-3">
-                {agendamento.brinquedos_selecionados.map((brinquedo, index) => (
-                  <div key={index} className="bg-gray-50 p-3 rounded-lg">
-                    <p className="font-medium text-gray-800">
-                      {brinquedo.nome} ({brinquedo.quantidade}x): {formatCurrency(brinquedo.valor * brinquedo.quantidade)}
-                    </p>
-                  </div>
-                ))}
+                {agendamento.brinquedos_selecionados.map((brinquedo, index) => {
+                  if (!brinquedo || !brinquedo.nome) return null;
+
+                  return (
+                    <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                      <p className="font-medium text-gray-800">
+                        {brinquedo.nome} ({brinquedo.quantidade || 1}x): {formatCurrency((brinquedo.valor || 0) * (brinquedo.quantidade || 1))}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

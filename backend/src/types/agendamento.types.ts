@@ -13,7 +13,6 @@ export type StatusAgendamento =
 export type FaixaEtaria = 'infantil' | 'adolescente' | 'adulto' | 'misto';
 
 export interface BrinquedoSelecionado {
-  id: string;
   nome: string;
   quantidade: number;
   valor: number;

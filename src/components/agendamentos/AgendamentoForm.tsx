@@ -6,7 +6,7 @@ import type { Brinquedo } from '../../types';
 import { inventarioService } from '../../services';
 import type { DisponibilidadeResponse } from '../../types/inventario.types';
 
-interface BrinquedoSelecionado {
+interface BrinquedoFormulario {
   brinquedo: Brinquedo;
   quantidade: number;
   disponibilidade?: DisponibilidadeResponse;
@@ -50,7 +50,7 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
 
   // Brinquedos
   const [brinquedoPrincipal, setBrinquedoPrincipal] = useState('');
-  const [brinquedosSelecionados, setBrinquedosSelecionados] = useState<BrinquedoSelecionado[]>([]);
+  const [brinquedosSelecionados, setBrinquedosSelecionados] = useState<BrinquedoFormulario[]>([]);
   const [categoriaAtual, setCategoriaAtual] = useState('');
   const [brinquedoAtual, setBrinquedoAtual] = useState('');
   const [quantidadeAtual, setQuantidadeAtual] = useState(1);
@@ -89,16 +89,22 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({
         setBrinquedoPrincipal(initialData.brinquedo_principal || '');
 
         // Carregar brinquedos selecionados
-        if (initialData.brinquedos_selecionados && initialData.brinquedos_selecionados.length > 0) {
-          const brinquedosCarregados: BrinquedoSelecionado[] = initialData.brinquedos_selecionados.map((item: any) => ({
-            brinquedo: {
-              id: item.id,
-              nome: item.nome,
-              valor_locacao: item.valor,
-              quantidade_estoque: 999,
-            } as Brinquedo,
-            quantidade: item.quantidade,
-          }));
+        if (initialData.brinquedos_selecionados &&
+            Array.isArray(initialData.brinquedos_selecionados) &&
+            initialData.brinquedos_selecionados.length > 0) {
+          const brinquedosCarregados: BrinquedoFormulario[] = initialData.brinquedos_selecionados
+            .filter((item: any) => item && item.nome)
+            .map((item: any) => ({
+              brinquedo: {
+                id: `temp-${item.nome}`,
+                nome: item.nome,
+                valor_locacao: item.valor || 0,
+                quantidade_estoque: 999,
+                categoria: '',
+                status: 'disponivel',
+              } as Brinquedo,
+              quantidade: item.quantidade || 1,
+            }));
           setBrinquedosSelecionados(brinquedosCarregados);
         }
       }

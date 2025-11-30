@@ -256,6 +256,12 @@ const AgendamentoDetalhes: React.FC = () => {
                 <p className="text-gray-800 capitalize">{agendamento.faixa_etaria}</p>
               </div>
             )}
+            {agendamento.brinquedo_principal && (
+              <div>
+                <label className="text-sm font-bold text-black">Brinquedo(s) Solicitado(s):</label>
+                <p className="text-gray-800">{agendamento.brinquedo_principal}</p>
+              </div>
+            )}
             {agendamento.brinquedos_selecionados &&
               Array.isArray(agendamento.brinquedos_selecionados) &&
               agendamento.brinquedos_selecionados.length > 0 && (

@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Loading } from '../components/common';
 import { useAgendamentos } from '../hooks';
+import { agendamentosService } from '../services';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const Agendamentos: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [tipoServicoFilter, setTipoServicoFilter] = useState('');
@@ -17,6 +21,23 @@ const Agendamentos: React.FC = () => {
     tipoServico: tipoServicoFilter || undefined,
     dataInicio: dataFilter || undefined,
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => agendamentosService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agendamentos'] });
+      toast.success('Agendamento excluído com sucesso!');
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Erro ao excluir agendamento');
+    },
+  });
+
+  const handleExcluirAgendamento = (id: string, clienteNome: string) => {
+    if (window.confirm(`Tem certeza que deseja excluir o agendamento de ${clienteNome}? Esta ação não pode ser desfeita.`)) {
+      deleteMutation.mutate(id);
+    }
+  };
 
   const formatarMoeda = (valor: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -267,8 +288,12 @@ const Agendamentos: React.FC = () => {
                       >
                         Editar
                       </button>
-                      <button className="text-red-600 hover:text-red-900 font-bold">
-                        Excluir
+                      <button
+                        onClick={() => handleExcluirAgendamento(agendamento.id, agendamento.cliente_nome)}
+                        className="text-red-600 hover:text-red-900 font-bold"
+                        disabled={deleteMutation.isPending}
+                      >
+                        {deleteMutation.isPending ? 'Excluindo...' : 'Excluir'}
                       </button>
                     </td>
                   </tr>

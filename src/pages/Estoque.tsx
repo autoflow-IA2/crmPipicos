@@ -1,10 +1,140 @@
 import React, { useState } from 'react';
-import { Button, Loading } from '../components/common';
+import { Button, Loading, Modal, Input } from '../components/common';
 import { useBrinquedos } from '../hooks';
+import { brinquedosService } from '../services';
+import { CreateBrinquedoDTO } from '../types';
+import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const Estoque: React.FC = () => {
   const { data: brinquedos = [], isLoading, error } = useBrinquedos();
   const [filtroCategoria, setFiltroCategoria] = useState<string>('');
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [novaCategoria, setNovaCategoria] = useState(false);
+  const [brinquedoEditando, setBrinquedoEditando] = useState<string | null>(null);
+  const [formData, setFormData] = useState<CreateBrinquedoDTO>({
+    nome: '',
+    descricao: '',
+    categoria: '',
+    capacidade_pessoas: undefined,
+    dimensoes: '',
+    valor_locacao: undefined,
+    quantidade_estoque: 1,
+    status: 'disponivel',
+  });
+
+  const queryClient = useQueryClient();
+
+  const createMutation = useMutation({
+    mutationFn: (data: CreateBrinquedoDTO) => brinquedosService.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['brinquedos'] });
+      toast.success('Brinquedo cadastrado com sucesso!');
+      setShowModal(false);
+      resetForm();
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Erro ao cadastrar brinquedo');
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<CreateBrinquedoDTO> }) =>
+      brinquedosService.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['brinquedos'] });
+      toast.success('Brinquedo atualizado com sucesso!');
+      setShowEditModal(false);
+      resetForm();
+      setBrinquedoEditando(null);
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Erro ao atualizar brinquedo');
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => brinquedosService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['brinquedos'] });
+      toast.success('Brinquedo excluído com sucesso!');
+      setShowEditModal(false);
+      resetForm();
+      setBrinquedoEditando(null);
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Erro ao excluir brinquedo');
+    },
+  });
+
+  const resetForm = () => {
+    setFormData({
+      nome: '',
+      descricao: '',
+      categoria: '',
+      capacidade_pessoas: undefined,
+      dimensoes: '',
+      valor_locacao: undefined,
+      quantidade_estoque: 1,
+      status: 'disponivel',
+    });
+    setNovaCategoria(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.nome.trim()) {
+      toast.error('Nome do brinquedo é obrigatório');
+      return;
+    }
+
+    createMutation.mutate(formData);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.nome.trim()) {
+      toast.error('Nome do brinquedo é obrigatório');
+      return;
+    }
+
+    if (!brinquedoEditando) return;
+
+    updateMutation.mutate({
+      id: brinquedoEditando,
+      data: formData,
+    });
+  };
+
+  const handleEditarBrinquedo = (brinquedo: any) => {
+    setBrinquedoEditando(brinquedo.id);
+    setFormData({
+      nome: brinquedo.nome,
+      descricao: brinquedo.descricao || '',
+      categoria: brinquedo.categoria || '',
+      capacidade_pessoas: brinquedo.capacidade_pessoas,
+      dimensoes: brinquedo.dimensoes || '',
+      valor_locacao: brinquedo.valor_locacao,
+      quantidade_estoque: brinquedo.quantidade_estoque,
+      status: brinquedo.status,
+    });
+    setShowEditModal(true);
+  };
+
+  const handleExcluirBrinquedo = () => {
+    if (!brinquedoEditando) return;
+
+    if (window.confirm('Tem certeza que deseja excluir este brinquedo? Esta ação não pode ser desfeita.')) {
+      deleteMutation.mutate(brinquedoEditando);
+    }
+  };
+
+  const handleInputChange = (field: keyof CreateBrinquedoDTO, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const brinquedosFiltrados = filtroCategoria
     ? brinquedos.filter((b) => b.categoria === filtroCategoria)
@@ -29,7 +159,7 @@ const Estoque: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-black">Estoque de Brinquedos</h1>
-        <Button variant="primary">
+        <Button variant="primary" onClick={() => setShowModal(true)}>
           <span className="flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M12 4v16m8-8H4"></path>
@@ -144,7 +274,8 @@ const Estoque: React.FC = () => {
           {brinquedosFiltrados.map((brinquedo) => (
             <div
               key={brinquedo.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => handleEditarBrinquedo(brinquedo)}
             >
               {/* Imagem placeholder */}
               <div className="h-48 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
@@ -200,6 +331,395 @@ const Estoque: React.FC = () => {
           ))}
         </div>
       )}
+
+      {/* Modal de Cadastro */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          resetForm();
+        }}
+        title="Cadastrar Novo Brinquedo"
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Nome do Brinquedo *
+            </label>
+            <Input
+              type="text"
+              value={formData.nome}
+              onChange={(e) => handleInputChange('nome', e.target.value)}
+              placeholder="Ex: Pula-pula Gigante"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Categoria
+            </label>
+            {!novaCategoria ? (
+              <div className="space-y-2">
+                <select
+                  value={formData.categoria || ''}
+                  onChange={(e) => {
+                    if (e.target.value === '__nova__') {
+                      setNovaCategoria(true);
+                      handleInputChange('categoria', '');
+                    } else {
+                      handleInputChange('categoria', e.target.value);
+                    }
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="">Selecione uma categoria</option>
+                  {categorias.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="Infláveis">Infláveis</option>
+                  <option value="Eletrônicos">Eletrônicos</option>
+                  <option value="Estruturas">Estruturas</option>
+                  <option value="Jogos">Jogos</option>
+                  <option value="Tobogãs">Tobogãs</option>
+                  <option value="Cama Elástica">Cama Elástica</option>
+                  <option value="Mesa de Ar">Mesa de Ar</option>
+                  <option value="Piscina de Bolinhas">Piscina de Bolinhas</option>
+                  <option value="__nova__">+ Nova Categoria</option>
+                </select>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  value={formData.categoria || ''}
+                  onChange={(e) => handleInputChange('categoria', e.target.value)}
+                  placeholder="Digite o nome da nova categoria"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNovaCategoria(false);
+                    handleInputChange('categoria', '');
+                  }}
+                  className="text-sm text-primary-600 hover:text-primary-700"
+                >
+                  ← Voltar para categorias existentes
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Descrição
+            </label>
+            <textarea
+              value={formData.descricao || ''}
+              onChange={(e) => handleInputChange('descricao', e.target.value)}
+              placeholder="Descrição do brinquedo..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              rows={3}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Capacidade (pessoas)
+              </label>
+              <Input
+                type="number"
+                value={formData.capacidade_pessoas || ''}
+                onChange={(e) => handleInputChange('capacidade_pessoas', e.target.value ? parseInt(e.target.value) : undefined)}
+                placeholder="Ex: 10"
+                min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Dimensões
+              </label>
+              <Input
+                type="text"
+                value={formData.dimensoes || ''}
+                onChange={(e) => handleInputChange('dimensoes', e.target.value)}
+                placeholder="Ex: 5x5m"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Valor Locação (R$)
+              </label>
+              <Input
+                type="number"
+                step="0.01"
+                value={formData.valor_locacao || ''}
+                onChange={(e) => handleInputChange('valor_locacao', e.target.value ? parseFloat(e.target.value) : undefined)}
+                placeholder="Ex: 150.00"
+                min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Quantidade em Estoque
+              </label>
+              <Input
+                type="number"
+                value={formData.quantidade_estoque}
+                onChange={(e) => handleInputChange('quantidade_estoque', parseInt(e.target.value) || 1)}
+                placeholder="Ex: 2"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Status
+            </label>
+            <select
+              value={formData.status}
+              onChange={(e) => handleInputChange('status', e.target.value as 'disponivel' | 'manutencao' | 'indisponivel')}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="disponivel">Disponível</option>
+              <option value="manutencao">Em Manutenção</option>
+              <option value="indisponivel">Indisponível</option>
+            </select>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setShowModal(false);
+                resetForm();
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={createMutation.isPending}
+            >
+              {createMutation.isPending ? 'Salvando...' : 'Salvar Brinquedo'}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Modal de Edição */}
+      <Modal
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          resetForm();
+          setBrinquedoEditando(null);
+        }}
+        title="Editar Brinquedo"
+      >
+        <form onSubmit={handleEditSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Nome do Brinquedo *
+            </label>
+            <Input
+              type="text"
+              value={formData.nome}
+              onChange={(e) => handleInputChange('nome', e.target.value)}
+              placeholder="Ex: Pula-pula Gigante"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Categoria
+            </label>
+            {!novaCategoria ? (
+              <div className="space-y-2">
+                <select
+                  value={formData.categoria || ''}
+                  onChange={(e) => {
+                    if (e.target.value === '__nova__') {
+                      setNovaCategoria(true);
+                      handleInputChange('categoria', '');
+                    } else {
+                      handleInputChange('categoria', e.target.value);
+                    }
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="">Selecione uma categoria</option>
+                  {categorias.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="Infláveis">Infláveis</option>
+                  <option value="Eletrônicos">Eletrônicos</option>
+                  <option value="Estruturas">Estruturas</option>
+                  <option value="Jogos">Jogos</option>
+                  <option value="Tobogãs">Tobogãs</option>
+                  <option value="Cama Elástica">Cama Elástica</option>
+                  <option value="Mesa de Ar">Mesa de Ar</option>
+                  <option value="Piscina de Bolinhas">Piscina de Bolinhas</option>
+                  <option value="__nova__">+ Nova Categoria</option>
+                </select>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  value={formData.categoria || ''}
+                  onChange={(e) => handleInputChange('categoria', e.target.value)}
+                  placeholder="Digite o nome da nova categoria"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNovaCategoria(false);
+                    handleInputChange('categoria', '');
+                  }}
+                  className="text-sm text-primary-600 hover:text-primary-700"
+                >
+                  ← Voltar para categorias existentes
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Descrição
+            </label>
+            <textarea
+              value={formData.descricao || ''}
+              onChange={(e) => handleInputChange('descricao', e.target.value)}
+              placeholder="Descrição do brinquedo..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              rows={3}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Capacidade (pessoas)
+              </label>
+              <Input
+                type="number"
+                value={formData.capacidade_pessoas || ''}
+                onChange={(e) => handleInputChange('capacidade_pessoas', e.target.value ? parseInt(e.target.value) : undefined)}
+                placeholder="Ex: 10"
+                min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Dimensões
+              </label>
+              <Input
+                type="text"
+                value={formData.dimensoes || ''}
+                onChange={(e) => handleInputChange('dimensoes', e.target.value)}
+                placeholder="Ex: 5x5m"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Valor Locação (R$)
+              </label>
+              <Input
+                type="number"
+                step="0.01"
+                value={formData.valor_locacao || ''}
+                onChange={(e) => handleInputChange('valor_locacao', e.target.value ? parseFloat(e.target.value) : undefined)}
+                placeholder="Ex: 150.00"
+                min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-black mb-1">
+                Quantidade em Estoque
+              </label>
+              <Input
+                type="number"
+                value={formData.quantidade_estoque}
+                onChange={(e) => handleInputChange('quantidade_estoque', parseInt(e.target.value) || 1)}
+                placeholder="Ex: 2"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-black mb-1">
+              Status
+            </label>
+            <select
+              value={formData.status}
+              onChange={(e) => handleInputChange('status', e.target.value as 'disponivel' | 'manutencao' | 'indisponivel')}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="disponivel">Disponível</option>
+              <option value="manutencao">Em Manutenção</option>
+              <option value="indisponivel">Indisponível</option>
+            </select>
+          </div>
+
+          <div className="flex justify-between items-center pt-4 border-t">
+            <Button
+              type="button"
+              onClick={handleExcluirBrinquedo}
+              disabled={deleteMutation.isPending}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {deleteMutation.isPending ? 'Excluindo...' : '🗑️ Excluir'}
+            </Button>
+
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setShowEditModal(false);
+                  resetForm();
+                  setBrinquedoEditando(null);
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={updateMutation.isPending}
+              >
+                {updateMutation.isPending ? 'Salvando...' : 'Salvar Alterações'}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };
